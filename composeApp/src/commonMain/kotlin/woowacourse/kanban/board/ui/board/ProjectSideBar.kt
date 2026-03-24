@@ -1,0 +1,95 @@
+package woowacourse.kanban.board.ui.board
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+@Composable
+fun ProjectSideBar(
+    selectedProject: String,
+    onProjectSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    innerPadding: Dp = 16.dp,
+    projects: List<String> = emptyList(),
+) {
+    Column(
+        modifier = modifier,
+    ) {
+        SideBarHeader(modifier = Modifier.padding(innerPadding))
+        HorizontalDivider(modifier = Modifier.height(1.dp).background(Color(0xffE5E7EB)))
+        ProjectTabs(projects, selectedProject, onProjectSelect, modifier = Modifier.padding(innerPadding))
+    }
+}
+
+@Composable
+private fun SideBarHeader(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+    ) {
+        Text(text = "프로젝트", color = Color(0xff101828), fontSize = 18.sp, fontWeight = FontWeight.W600)
+        Text(text = "4주차 미션 보드", color = Color(0xff6A7282), fontSize = 14.sp, fontWeight = FontWeight.W400)
+    }
+}
+
+@Composable
+private fun ProjectTabs(
+    projects: List<String>,
+    selectedProject: String,
+    onProjectSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        projects.forEach { project ->
+            val isSelected = (project == selectedProject)
+
+            FilterChip(
+                selected = isSelected,
+                onClick = { onProjectSelect(project) },
+                label = { Text(project, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                modifier = Modifier.fillMaxWidth(),
+                colors = FilterChipDefaults.filterChipColors(
+                    containerColor = Color.White,
+                    labelColor = Color(0xff364153),
+                    selectedContainerColor = Color(0xffEEF2FF),
+                    selectedLabelColor = Color(0xff432DD7),
+                ),
+                border = null,
+                elevation = FilterChipDefaults.elevatedFilterChipElevation(
+                    elevation = if (isSelected) 2.dp else 0.dp,
+                ),
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProjectSideBarPreview() {
+    ProjectSideBar(
+        modifier = Modifier.width(255.dp).fillMaxHeight(),
+        projects = listOf("Compose1", "Compose2", "Compose3너무너무긴제목입니다잇"),
+        selectedProject = "Compose1",
+        onProjectSelect = {},
+    )
+}

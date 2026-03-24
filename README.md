@@ -5,9 +5,10 @@
 _[피그마 시안](https://www.figma.com/design/3aBG3UfkTwmHM8BnPyahtT/8%EA%B8%B0-Android-%EB%A0%88%EB%B2%A81-%EB%AF%B8%EC%85%98-%EB%94%94%EC%9E%90%EC%9D%B8?node-id=23136-23&t=xCxwxtFTp8FpfgFV-1)
 에 맞춰 UI를 구성한다._
 
-### 메뉴바
+### 사이드바
 
-- [ ] 칸반 보드 프로젝트 탭을 화면 좌측에 표시한다.
+- [X] 칸반 보드 프로젝트 탭을 화면 좌측에 표시한다.
+    - [x] 프로젝트 이름이 너무 길면 ellipsis로 표시한다.
 - [ ] 선택한 프로젝트에 대한 칸반 보드를 보여준다.
 
 ### 태스크 이동
