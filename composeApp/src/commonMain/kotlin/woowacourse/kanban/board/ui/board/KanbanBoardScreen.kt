@@ -11,11 +11,14 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -28,6 +31,8 @@ import kanbanboard.composeapp.generated.resources.snackbar_unknown_error
 import org.jetbrains.compose.resources.getString
 import woowacourse.kanban.board.domain.TaskCreator
 import woowacourse.kanban.board.domain.model.KanbanProject
+import woowacourse.kanban.board.domain.model.Status
+import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.ui.dialog.TaskCreateDialog
 import woowacourse.kanban.board.ui.util.SnackBarEvent
 
@@ -37,6 +42,10 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
     var showDialog by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
     var snackBarEvent: SnackBarEvent? by remember { mutableStateOf(null) }
+
+    var draggedTask by remember { mutableStateOf<Task?>(null) }
+    var currentDragPosition by remember { mutableStateOf<Offset?>(null) }
+    val columnBounds = remember { mutableStateMapOf<Status, Rect>() }
 
     LaunchedEffect(snackBarEvent?.id) {
         snackBarEvent?.let {
@@ -85,6 +94,29 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
             )
             VerticalDivider(modifier = Modifier.width(1.dp).background(Color(0xffE5E7EB)))
             TaskBoard(
+                getIsDropTarget = { status ->
+                    currentDragPosition?.let { columnBounds[status]?.contains(it) } ?: false
+                },
+                onBoundsChanged = { rect, status -> columnBounds[status] = rect },
+                onTaskDragStart = { task -> draggedTask = task },
+                onTaskDragChange = { pos -> currentDragPosition = pos },
+                onTaskDragEnd = {
+                    val dropPosition = currentDragPosition ?: return@TaskBoard
+                    val targetStatus = columnBounds.entries
+                        .firstOrNull { (_, rect) -> rect.contains(dropPosition) }?.key
+
+                    draggedTask?.let { task ->
+                        if (targetStatus != null && task.status != targetStatus) {
+                            projectState.projectGroup = projectState.projectGroup.changeTaskStatus(task, targetStatus)
+                        }
+                    }
+                    currentDragPosition = null
+                    draggedTask = null
+                },
+                onTaskDragCancel = {
+                    currentDragPosition = null
+                    draggedTask = null
+                },
                 uiState = projectState,
                 project = projectState.projectGroup.selectedProject,
                 onClickCreate = { showDialog = true },

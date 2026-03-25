@@ -2,6 +2,7 @@ package woowacourse.kanban.board.ui.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +12,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInWindow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,12 +46,33 @@ private const val TITLE_MAX_LINE = 1
 private const val CONTENT_MAX_LINE = 2
 
 @Composable
-fun TaskCard(task: Task, modifier: Modifier = Modifier) {
+fun TaskCard(
+    task: Task,
+    modifier: Modifier = Modifier,
+    onDragStart: () -> Unit = {},
+    onDragChange: (Offset) -> Unit = {},
+    onDragEnd: () -> Unit = {},
+    onDragCancel: () -> Unit = {},
+) {
+    var cardWindowPosition by remember { mutableStateOf(Offset.Zero) }
+
     Column(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .background(Color.White)
             .border(width = 1.dp, shape = RoundedCornerShape(10.dp), color = Gray200)
+            .onGloballyPositioned { cardWindowPosition = it.positionInWindow() }
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragStart = { onDragStart() },
+                    onDrag = { change, _ ->
+                        change.consume()
+                        onDragChange(cardWindowPosition + change.position)
+                    },
+                    onDragEnd = { onDragEnd() },
+                    onDragCancel = { onDragCancel() },
+                )
+            }
             .padding(17.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {

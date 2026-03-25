@@ -10,14 +10,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.domain.model.Status
+import woowacourse.kanban.board.domain.model.Task
 
 @Composable
-fun TaskBoard(uiState: ProjectState, project: KanbanProject, modifier: Modifier = Modifier, onClickCreate: () -> Unit = {}) {
+fun TaskBoard(
+    uiState: ProjectState,
+    project: KanbanProject,
+    modifier: Modifier = Modifier,
+    getIsDropTarget: (Status) -> Boolean = { false },
+    onBoundsChanged: (Rect, Status) -> Unit = { _, _ -> },
+    onTaskDragStart: (Task) -> Unit = {},
+    onTaskDragChange: (Offset) -> Unit = {},
+    onTaskDragEnd: () -> Unit = {},
+    onTaskDragCancel: () -> Unit = {},
+    onClickCreate: () -> Unit = {},
+) {
     Column(
         modifier = modifier.fillMaxWidth().fillMaxHeight().background(Color(0xffF9FAFB)),
     ) {
@@ -39,6 +53,12 @@ fun TaskBoard(uiState: ProjectState, project: KanbanProject, modifier: Modifier 
                     status = status,
                     tasks = uiState.projectGroup.selectedProject.tasks.filter { it.status == status },
                     boxColor = status.getBoxColor(),
+                    getIsDropTarget = { getIsDropTarget(status) },
+                    onBoundsChanged = { rect -> onBoundsChanged(rect, status) },
+                    onTaskDragStart = onTaskDragStart,
+                    onTaskDragChange = onTaskDragChange,
+                    onTaskDragEnd = onTaskDragEnd,
+                    onTaskDragCancel = onTaskDragCancel,
                 )
             }
         }

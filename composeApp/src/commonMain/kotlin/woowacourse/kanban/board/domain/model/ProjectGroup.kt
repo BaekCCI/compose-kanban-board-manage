@@ -18,6 +18,24 @@ data class ProjectGroup(val projects: List<KanbanProject>, val currentProjectNam
         currentProjectName,
     )
 
+    fun changeTaskStatus(task: Task, newStatus: Status): ProjectGroup {
+        val newTasks = selectedProject.tasks.map { originalTask ->
+            if (task == originalTask) {
+                originalTask.copy(status = newStatus)
+            } else {
+                originalTask
+            }
+        }
+        val newProjects = projects.map { project ->
+            if (project.name == currentProjectName) {
+                project.copy(tasks = newTasks)
+            } else {
+                project
+            }
+        }
+        return ProjectGroup(newProjects, currentProjectName)
+    }
+
     fun changeProject(name: String): ProjectGroup {
         return ProjectGroup(projects, name)
     }

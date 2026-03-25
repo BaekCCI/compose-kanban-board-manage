@@ -14,10 +14,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,10 +38,33 @@ import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.util.toUiString
 
 @Composable
-fun TaskBox(modifier: Modifier = Modifier, status: Status, tasks: List<Task>, boxColor: TaskBoxColor) {
+fun TaskBox(
+    status: Status,
+    tasks: List<Task>,
+    boxColor: TaskBoxColor,
+    modifier: Modifier = Modifier,
+    getIsDropTarget: () -> Boolean = { false },
+    onBoundsChanged: (Rect) -> Unit = {},
+    onTaskDragStart: (Task) -> Unit = {},
+    onTaskDragChange: (Offset) -> Unit = {},
+    onTaskDragEnd: () -> Unit = {},
+    onTaskDragCancel: () -> Unit = {},
+) {
+    val isDropTarget by remember { derivedStateOf { getIsDropTarget() } }
+    val lastBoundsHolder = remember { mutableStateOf<Rect?>(null) }
     Column(
         modifier = modifier.clip(shape = RoundedCornerShape(10.dp))
-            .background(boxColor.background),
+            .background(boxColor.background)
+            .onGloballyPositioned {
+                val newBounds = it.boundsInWindow()
+                if (newBounds != lastBoundsHolder.value) {
+                    lastBoundsHolder.value = newBounds
+                    onBoundsChanged(newBounds)
+                }
+            }
+            .then(
+                if (isDropTarget) modifier.border(2.dp, Color(0xFFFF0000), RoundedCornerShape(12.dp)) else modifier,
+            ),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth().background(boxColor.headerBackground)
@@ -61,7 +92,14 @@ fun TaskBox(modifier: Modifier = Modifier, status: Status, tasks: List<Task>, bo
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             items(tasks, key = { it.id }) {
-                TaskCard(task = it, modifier = Modifier.fillMaxWidth())
+                TaskCard(
+                    task = it,
+                    onDragStart = { onTaskDragStart(it) },
+                    onDragChange = onTaskDragChange,
+                    onDragEnd = onTaskDragEnd,
+                    onDragCancel = onTaskDragCancel,
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
         }
     }
