@@ -108,6 +108,9 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
                     draggedTask?.let { task ->
                         if (targetStatus != null && task.status != targetStatus) {
                             projectState.projectGroup = projectState.projectGroup.changeTaskStatus(task, targetStatus)
+                            snackBarEvent = SnackBarEvent(
+                                message = "태스크가 이동되었습니다.",
+                            )
                         }
                     }
                     currentDragPosition = null
