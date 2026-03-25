@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
-import kanbanboard.composeapp.generated.resources.board_header_title
 import kanbanboard.composeapp.generated.resources.button_create_new_task
 import kanbanboard.composeapp.generated.resources.format_completion_rate
 import org.jetbrains.compose.resources.stringResource
@@ -34,11 +33,12 @@ import woowacourse.kanban.board.ui.theme.Purple
 
 @Composable
 fun KanbanHeader(
-    modifier: Modifier = Modifier,
-    onClickCreate: () -> Unit = {},
+    title: String,
     totalCount: Int,
     completeCount: Int,
     completeRatio: Float,
+    modifier: Modifier = Modifier,
+    onClickCreate: () -> Unit = {},
 ) {
     Column(
         modifier = modifier.fillMaxWidth().background(Color.White).border(width = 1.dp, color = Color(0xffE5E7EB))
@@ -55,7 +55,7 @@ fun KanbanHeader(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Text(
-                    text = stringResource(Res.string.board_header_title),
+                    text = title,
                     color = Color(0xff101828),
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Medium,
@@ -116,6 +116,7 @@ private fun TaskProgressBar(modifier: Modifier = Modifier, completeRatio: Float)
 @Composable
 private fun KanbanHeaderPreview() {
     KanbanHeader(
+        title = "안녕하세요 스마일입니다",
         totalCount = 30,
         completeCount = 20,
         completeRatio = 0.6f,

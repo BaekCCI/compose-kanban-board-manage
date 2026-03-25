@@ -17,6 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kanbanboard.composeapp.generated.resources.Res
@@ -25,12 +27,14 @@ import kanbanboard.composeapp.generated.resources.snackbar_error_create_new_task
 import kanbanboard.composeapp.generated.resources.snackbar_unknown_error
 import org.jetbrains.compose.resources.getString
 import woowacourse.kanban.board.domain.TaskCreator
+import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.ui.dialog.TaskCreateDialog
 import woowacourse.kanban.board.ui.util.SnackBarEvent
 
 @Composable
-fun KanbanBoardScreen() {
+fun KanbanBoardScreen(initialProjectState: ProjectState) {
     val boardState = remember { TaskBoardState() }
+    val projectState = remember { initialProjectState }
     var showDialog by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
     var snackBarEvent: SnackBarEvent? by remember { mutableStateOf(null) }
@@ -75,15 +79,17 @@ fun KanbanBoardScreen() {
         }
         Row {
             ProjectSideBar(
-                projects = listOf("Compose1", "Compose2", "Compose3너무너무긴제목입니다잇"),
-                selectedProject = "Compose1",
-                onProjectSelect = {},
+                projects = projectState.projects,
+                selectedProject = projectState.selectedProject,
+                onProjectSelect = { projectState.selectProject(it) },
                 modifier = Modifier.width(255.dp).fillMaxHeight(),
             )
             VerticalDivider(modifier = Modifier.width(1.dp).background(Color(0xffE5E7EB)))
             TaskBoard(
                 uiState = boardState,
+                project = projectState.selectedProject,
                 onClickCreate = { showDialog = true },
+                modifier = Modifier.semantics { contentDescription = "${projectState.selectedProject.name} 화면" },
             )
         }
 
@@ -97,5 +103,5 @@ fun KanbanBoardScreen() {
 @Composable
 @Preview
 private fun KanbanBoardScreenPreview() {
-    KanbanBoardScreen()
+    KanbanBoardScreen(initialProjectState = ProjectState(listOf(), KanbanProject("A프로젝트")))
 }

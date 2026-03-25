@@ -7,20 +7,24 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.domain.model.Status
 
 @Composable
-fun TaskBoard(modifier: Modifier = Modifier, onClickCreate: () -> Unit = {}, uiState: TaskBoardState) {
+fun TaskBoard(uiState: TaskBoardState, project: KanbanProject, modifier: Modifier = Modifier, onClickCreate: () -> Unit = {}) {
     Column(
         modifier = modifier.fillMaxWidth().fillMaxHeight().background(Color(0xffF9FAFB)),
     ) {
         KanbanHeader(
+            title = project.name,
             onClickCreate = onClickCreate,
             totalCount = uiState.totalCount,
             completeCount = uiState.completeCount,
@@ -46,5 +50,5 @@ fun TaskBoard(modifier: Modifier = Modifier, onClickCreate: () -> Unit = {}, uiS
 @Preview(showBackground = true, widthDp = 800)
 @Composable
 private fun TaskBoardPreview() {
-    TaskBoard(uiState = TaskBoardState())
+    TaskBoard(project = KanbanProject("안녕하세요"), uiState = TaskBoardState())
 }

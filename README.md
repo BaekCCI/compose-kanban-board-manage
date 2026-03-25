@@ -18,7 +18,7 @@ _[피그마 시안](https://www.figma.com/design/3aBG3UfkTwmHM8BnPyahtT/8%EA%B8%
 
 ## 테스트
 
-- [ ] 사용자가 프로젝트 선택하면 해당하는 태스크 목록을 보여준다
+- [x] 사용자가 프로젝트 선택하면 해당하는 해당 프로젝트 화면으로 전환된다
     ```gherkin
     Scenario: 사용자가 프로젝트를 전환하려는 상황
         Given 현재 프로젝트가 A프로젝트
