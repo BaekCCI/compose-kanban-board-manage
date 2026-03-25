@@ -4,13 +4,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import woowacourse.kanban.board.domain.model.KanbanProject
+import woowacourse.kanban.board.domain.model.ProjectGroup
+import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Task
 
 class ProjectState(val projects: List<KanbanProject>, initialProject: KanbanProject) {
+    var projectGroup: ProjectGroup by mutableStateOf(ProjectGroup(projects, initialProject.name))
 
-    var selectedProject: KanbanProject by mutableStateOf(initialProject)
+    val totalCount: Int get() = projectGroup.selectedProject.tasks.size
+    val completeCount: Int get() = projectGroup.selectedProject.tasks.count { it.status == Status.DONE }
+    val completeRatio: Float get() = if (totalCount == 0) 0f else completeCount.toFloat() / totalCount.toFloat()
 
-    fun selectProject(project: KanbanProject) {
-        selectedProject = project
+    fun createTask(task: Task) {
+        projectGroup = projectGroup.addTask(task)
+    }
+
+    fun selectProject(project: String) {
+        projectGroup = projectGroup.changeProject(project)
     }
 }

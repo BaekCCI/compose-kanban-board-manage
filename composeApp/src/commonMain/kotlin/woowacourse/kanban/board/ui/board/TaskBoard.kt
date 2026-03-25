@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,7 +17,7 @@ import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.domain.model.Status
 
 @Composable
-fun TaskBoard(uiState: TaskBoardState, project: KanbanProject, modifier: Modifier = Modifier, onClickCreate: () -> Unit = {}) {
+fun TaskBoard(uiState: ProjectState, project: KanbanProject, modifier: Modifier = Modifier, onClickCreate: () -> Unit = {}) {
     Column(
         modifier = modifier.fillMaxWidth().fillMaxHeight().background(Color(0xffF9FAFB)),
     ) {
@@ -39,7 +37,7 @@ fun TaskBoard(uiState: TaskBoardState, project: KanbanProject, modifier: Modifie
                 TaskBox(
                     modifier = Modifier.weight(1f, fill = false).widthIn(max = 320.dp).fillMaxHeight(),
                     status = status,
-                    tasks = uiState.tasks.filter { it.status == status },
+                    tasks = uiState.projectGroup.selectedProject.tasks.filter { it.status == status },
                     boxColor = status.getBoxColor(),
                 )
             }
@@ -50,5 +48,5 @@ fun TaskBoard(uiState: TaskBoardState, project: KanbanProject, modifier: Modifie
 @Preview(showBackground = true, widthDp = 800)
 @Composable
 private fun TaskBoardPreview() {
-    TaskBoard(project = KanbanProject("안녕하세요"), uiState = TaskBoardState())
+    TaskBoard(project = KanbanProject("안녕하세요"), uiState = ProjectState(emptyList(), KanbanProject("안녕하세요")))
 }

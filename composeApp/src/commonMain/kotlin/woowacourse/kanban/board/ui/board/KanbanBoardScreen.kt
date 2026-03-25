@@ -33,7 +33,6 @@ import woowacourse.kanban.board.ui.util.SnackBarEvent
 
 @Composable
 fun KanbanBoardScreen(initialProjectState: ProjectState) {
-    val boardState = remember { TaskBoardState() }
     val projectState = remember { initialProjectState }
     var showDialog by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
@@ -62,7 +61,7 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
                         TaskCreator.create(title = title, description = description, tags = tags, assignee = assignee, status = status)
 
                     result.onSuccess { newTask ->
-                        boardState.createTask(newTask)
+                        projectState.createTask(newTask)
                         showDialog = false
                         snackBarEvent =
                             SnackBarEvent(
@@ -79,17 +78,17 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
         }
         Row {
             ProjectSideBar(
-                projects = projectState.projects,
-                selectedProject = projectState.selectedProject,
+                projectNames = projectState.projects.map { it.name },
+                selectedProjectName = projectState.projectGroup.selectedProject.name,
                 onProjectSelect = { projectState.selectProject(it) },
                 modifier = Modifier.width(255.dp).fillMaxHeight(),
             )
             VerticalDivider(modifier = Modifier.width(1.dp).background(Color(0xffE5E7EB)))
             TaskBoard(
-                uiState = boardState,
-                project = projectState.selectedProject,
+                uiState = projectState,
+                project = projectState.projectGroup.selectedProject,
                 onClickCreate = { showDialog = true },
-                modifier = Modifier.semantics { contentDescription = "${projectState.selectedProject.name} 화면" },
+                modifier = Modifier.semantics { contentDescription = "${projectState.projectGroup.selectedProject.name} 화면" },
             )
         }
 

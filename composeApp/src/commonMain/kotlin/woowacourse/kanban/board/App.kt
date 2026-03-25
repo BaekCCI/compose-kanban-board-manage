@@ -11,6 +11,11 @@ import woowacourse.kanban.board.ui.board.ProjectState
 @Preview
 fun App() {
     MaterialTheme {
-        KanbanBoardScreen(initialProjectState = ProjectState(listOf(), KanbanProject("A프로젝트")))
+        KanbanBoardScreen(
+            initialProjectState = ProjectState(
+                listOf(KanbanProject("A프로젝트"), KanbanProject("B프로젝트"), KanbanProject("C프로젝트")),
+                KanbanProject("A프로젝트"),
+            ),
+        )
     }
 }
