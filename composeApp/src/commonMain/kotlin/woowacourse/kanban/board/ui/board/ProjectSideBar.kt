@@ -15,20 +15,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import woowacourse.kanban.board.domain.model.KanbanProject
 
 @Composable
 fun ProjectSideBar(
-    selectedProject: String,
-    onProjectSelect: (String) -> Unit,
+    projects: List<KanbanProject>,
+    selectedProject: KanbanProject,
+    onProjectSelect: (KanbanProject) -> Unit,
     modifier: Modifier = Modifier,
     innerPadding: Dp = 16.dp,
-    projects: List<String> = emptyList(),
 ) {
     Column(
         modifier = modifier,
@@ -51,9 +54,9 @@ private fun SideBarHeader(modifier: Modifier = Modifier) {
 
 @Composable
 private fun ProjectTabs(
-    projects: List<String>,
-    selectedProject: String,
-    onProjectSelect: (String) -> Unit,
+    projects: List<KanbanProject>,
+    selectedProject: KanbanProject,
+    onProjectSelect: (KanbanProject) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -66,8 +69,8 @@ private fun ProjectTabs(
             FilterChip(
                 selected = isSelected,
                 onClick = { onProjectSelect(project) },
-                label = { Text(project, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                modifier = Modifier.fillMaxWidth(),
+                label = { Text(project.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                modifier = Modifier.fillMaxWidth().semantics { contentDescription = "${project.name} 전환 버튼" },
                 colors = FilterChipDefaults.filterChipColors(
                     containerColor = Color.White,
                     labelColor = Color(0xff364153),
@@ -88,8 +91,8 @@ private fun ProjectTabs(
 private fun ProjectSideBarPreview() {
     ProjectSideBar(
         modifier = Modifier.width(255.dp).fillMaxHeight(),
-        projects = listOf("Compose1", "Compose2", "Compose3너무너무긴제목입니다잇"),
-        selectedProject = "Compose1",
+        projects = listOf(KanbanProject("Compose1"), KanbanProject("Compose2"), KanbanProject("Compose3너무너무긴제목입니다잇")),
+        selectedProject = KanbanProject("Compose1"),
         onProjectSelect = {},
     )
 }
