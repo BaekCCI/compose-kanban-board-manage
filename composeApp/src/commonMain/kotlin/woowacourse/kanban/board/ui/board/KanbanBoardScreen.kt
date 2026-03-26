@@ -90,7 +90,7 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
                 projectNames = projectState.projects.map { it.name },
                 selectedProjectName = projectState.projectGroup.selectedProject.name,
                 onProjectSelect = { projectState.selectProject(it) },
-                modifier = Modifier.width(255.dp).fillMaxHeight(),
+                modifier = Modifier.width(255.dp).fillMaxHeight().semantics { contentDescription = "Project SideBar" },
             )
             VerticalDivider(modifier = Modifier.width(1.dp).background(Color(0xffE5E7EB)))
             TaskBoard(

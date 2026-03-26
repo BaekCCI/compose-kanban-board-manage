@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.domain.model.KanbanProject
@@ -49,7 +51,8 @@ fun TaskBoard(
         ) {
             Status.entries.forEach { status ->
                 TaskBox(
-                    modifier = Modifier.weight(1f, fill = false).widthIn(max = 320.dp).fillMaxHeight(),
+                    modifier = Modifier.weight(1f, fill = false).widthIn(max = 320.dp).fillMaxHeight()
+                        .semantics { contentDescription = "$status 태스크 목록" },
                     status = status,
                     tasks = uiState.projectGroup.selectedProject.tasks.filter { it.status == status },
                     boxColor = status.getBoxColor(),
