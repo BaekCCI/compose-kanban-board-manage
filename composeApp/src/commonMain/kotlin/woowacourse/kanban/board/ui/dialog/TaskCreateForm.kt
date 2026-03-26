@@ -90,7 +90,7 @@ fun TaskCreateForm(
                 onClickCreate(
                     uiState.title,
                     uiState.content,
-                    uiState.tag.split(",").filter { it.isNotEmpty() },
+                    uiState.tag.split(",").filter { it.isNotEmpty() }.map { it.trim() },
                     uiState.selectedStatus,
                     uiState.selectedAssignee,
                 )

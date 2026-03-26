@@ -87,8 +87,7 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
         }
         Row {
             ProjectSideBar(
-                projects = projectState.projects,
-                selectedProjectId = projectState.projectGroup.selectedProject.id,
+                projectGroup = projectState.projectGroup,
                 onProjectSelect = { projectState.selectProject(it) },
                 modifier = Modifier.width(255.dp).fillMaxHeight().semantics { contentDescription = "Project SideBar" },
             )
@@ -107,7 +106,7 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
 
                     draggedTask?.let { task ->
                         if (targetStatus != null && task.status != targetStatus) {
-                            projectState.projectGroup = projectState.projectGroup.changeTaskStatus(task, targetStatus)
+                            projectState.changeTaskStatus(task = task, newStatus = targetStatus)
                             snackBarEvent = SnackBarEvent(
                                 message = "태스크가 이동되었습니다.",
                             )
