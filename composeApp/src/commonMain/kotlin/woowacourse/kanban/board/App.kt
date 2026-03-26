@@ -13,8 +13,8 @@ fun App() {
     MaterialTheme {
         KanbanBoardScreen(
             initialProjectState = ProjectState(
-                listOf(KanbanProject("A프로젝트"), KanbanProject("B프로젝트"), KanbanProject("C프로젝트")),
-                KanbanProject("A프로젝트"),
+                listOf(KanbanProject(id = 1, "A프로젝트"), KanbanProject(id = 2, "B프로젝트"), KanbanProject(id = 3, "C프로젝트")),
+                1,
             ),
         )
     }

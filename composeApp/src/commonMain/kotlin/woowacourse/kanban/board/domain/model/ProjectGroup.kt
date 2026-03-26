@@ -1,21 +1,21 @@
 package woowacourse.kanban.board.domain.model
 
-data class ProjectGroup(val projects: List<KanbanProject>, val currentProjectName: String) {
+data class ProjectGroup(val projects: List<KanbanProject>, val currentProjectId: Long) {
     init {
-        require(projects.any { it.name == currentProjectName })
+        require(projects.any { it.id == currentProjectId })
     }
 
-    val selectedProject get() = projects.first { it.name == currentProjectName }
+    val selectedProject get() = projects.first { it.id == currentProjectId }
 
     fun addTask(task: Task): ProjectGroup = ProjectGroup(
         projects.map { project ->
-            if (project.name == currentProjectName) {
-                KanbanProject(name = project.name, tasks = project.tasks + task)
+            if (project.id == currentProjectId) {
+                project.copy(tasks = project.tasks + task)
             } else {
                 project
             }
         },
-        currentProjectName,
+        currentProjectId,
     )
 
     fun changeTaskStatus(task: Task, newStatus: Status): ProjectGroup {
@@ -27,16 +27,16 @@ data class ProjectGroup(val projects: List<KanbanProject>, val currentProjectNam
             }
         }
         val newProjects = projects.map { project ->
-            if (project.name == currentProjectName) {
+            if (project.id == currentProjectId) {
                 project.copy(tasks = newTasks)
             } else {
                 project
             }
         }
-        return ProjectGroup(newProjects, currentProjectName)
+        return ProjectGroup(newProjects, currentProjectId)
     }
 
-    fun changeProject(name: String): ProjectGroup {
-        return ProjectGroup(projects, name)
+    fun changeProject(id: Long): ProjectGroup {
+        return ProjectGroup(projects, id)
     }
 }

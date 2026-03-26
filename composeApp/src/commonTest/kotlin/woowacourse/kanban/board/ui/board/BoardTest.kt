@@ -21,8 +21,7 @@ class BoardTest {
     fun `사용자가 프로젝트 선택하면 해당하는 해당 프로젝트 화면으로 전환된다`() = runComposeUiTest {
 
         // Given 현재 프로젝트가 A프로젝트
-        val initialProject = KanbanProject("A 프로젝트")
-        val state = ProjectState(listOf(KanbanProject("A 프로젝트"), KanbanProject("B 프로젝트")), initialProject)
+        val state = ProjectState(listOf(KanbanProject(1, "A 프로젝트"), KanbanProject(2, "B 프로젝트")), 1)
 
         // When B 프로젝트를 선택한다.
         setContent {
@@ -47,7 +46,7 @@ class BoardTest {
             user = User("정준하"),
             status = Status.TODO,
         )
-        val state = ProjectState(listOf(KanbanProject("A 프로젝트", listOf(task)), KanbanProject("B 프로젝트")), KanbanProject("A 프로젝트"))
+        val state = ProjectState(listOf(KanbanProject(1, "A 프로젝트", listOf(task)), KanbanProject(2, "B 프로젝트")), 1)
 
         // When 사용자가 태스크를 드래그앤드롭한다
         setContent {
@@ -74,7 +73,7 @@ class BoardTest {
             user = User("정준하"),
             status = Status.TODO,
         )
-        val state = ProjectState(listOf(KanbanProject("A 프로젝트", listOf(task)), KanbanProject("B 프로젝트")), KanbanProject("A 프로젝트"))
+        val state = ProjectState(listOf(KanbanProject(1, "A 프로젝트", listOf(task)), KanbanProject(2, "B 프로젝트")), 1)
 
         // When 사용자가 태스크를 드래그앤드롭한다
         setContent {
@@ -103,7 +102,7 @@ class BoardTest {
             user = User("정준하"),
             status = Status.TODO,
         )
-        val state = ProjectState(listOf(KanbanProject("A 프로젝트", listOf(task)), KanbanProject("B 프로젝트")), KanbanProject("A 프로젝트"))
+        val state = ProjectState(listOf(KanbanProject(1, "A 프로젝트", listOf(task)), KanbanProject(2, "B 프로젝트")), 1)
 
         // When 사용자가 태스크를 드롭한다
         setContent {

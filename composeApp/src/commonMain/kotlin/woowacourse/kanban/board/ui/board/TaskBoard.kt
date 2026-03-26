@@ -23,8 +23,7 @@ import woowacourse.kanban.board.domain.model.Task
 
 @Composable
 fun TaskBoard(
-    uiState: ProjectState,
-    project: KanbanProject,
+    projectState: ProjectState,
     modifier: Modifier = Modifier,
     getIsDropTarget: (Status) -> Boolean = { false },
     onBoundsChanged: (Rect, Status) -> Unit = { _, _ -> },
@@ -38,11 +37,11 @@ fun TaskBoard(
         modifier = modifier.fillMaxWidth().fillMaxHeight().background(Color(0xffF9FAFB)),
     ) {
         KanbanHeader(
-            title = project.name,
+            title = projectState.projectGroup.selectedProject.name,
             onClickCreate = onClickCreate,
-            totalCount = uiState.totalCount,
-            completeCount = uiState.completeCount,
-            completeRatio = uiState.completeRatio,
+            totalCount = projectState.totalCount,
+            completeCount = projectState.completeCount,
+            completeRatio = projectState.completeRatio,
         )
 
         Row(
@@ -54,7 +53,7 @@ fun TaskBoard(
                     modifier = Modifier.weight(1f, fill = false).widthIn(max = 320.dp).fillMaxHeight()
                         .semantics { contentDescription = "$status 태스크 목록" },
                     status = status,
-                    tasks = uiState.projectGroup.selectedProject.tasks.filter { it.status == status },
+                    tasks = projectState.projectGroup.selectedProject.tasks.filter { it.status == status },
                     boxColor = status.getBoxColor(),
                     getIsDropTarget = { getIsDropTarget(status) },
                     onBoundsChanged = { rect -> onBoundsChanged(rect, status) },
@@ -71,5 +70,5 @@ fun TaskBoard(
 @Preview(showBackground = true, widthDp = 800)
 @Composable
 private fun TaskBoardPreview() {
-    TaskBoard(project = KanbanProject("안녕하세요"), uiState = ProjectState(emptyList(), KanbanProject("안녕하세요")))
+    TaskBoard(projectState = ProjectState(listOf(KanbanProject(id = 1, name = "스마일은 천재인가?")), 1))
 }

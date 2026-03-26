@@ -23,12 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import woowacourse.kanban.board.domain.model.KanbanProject
 
 @Composable
 fun ProjectSideBar(
-    projectNames: List<String>,
-    selectedProjectName: String,
-    onProjectSelect: (String) -> Unit,
+    projects: List<KanbanProject>,
+    selectedProjectId: Long,
+    onProjectSelect: (Long) -> Unit,
     modifier: Modifier = Modifier,
     innerPadding: Dp = 16.dp,
 ) {
@@ -37,7 +38,7 @@ fun ProjectSideBar(
     ) {
         SideBarHeader(modifier = Modifier.padding(innerPadding))
         HorizontalDivider(modifier = Modifier.height(1.dp).background(Color(0xffE5E7EB)))
-        ProjectTabs(projectNames, selectedProjectName, onProjectSelect, modifier = Modifier.padding(innerPadding))
+        ProjectTabs(projects, selectedProjectId, onProjectSelect, modifier = Modifier.padding(innerPadding))
     }
 }
 
@@ -53,23 +54,23 @@ private fun SideBarHeader(modifier: Modifier = Modifier) {
 
 @Composable
 private fun ProjectTabs(
-    projectNames: List<String>,
-    selectedProjectName: String,
-    onProjectSelect: (String) -> Unit,
+    projects: List<KanbanProject>,
+    selectedProjectId: Long,
+    onProjectSelect: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        projectNames.forEach { project ->
-            val isSelected = (project == selectedProjectName)
+        projects.forEach { project ->
+            val isSelected = (project.id == selectedProjectId)
 
             FilterChip(
                 selected = isSelected,
-                onClick = { onProjectSelect(project) },
-                label = { Text(project, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                modifier = Modifier.fillMaxWidth().semantics { contentDescription = "$project 전환 버튼" },
+                onClick = { onProjectSelect(project.id) },
+                label = { Text(project.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                modifier = Modifier.fillMaxWidth().semantics { contentDescription = "${project.name} 전환 버튼" },
                 colors = FilterChipDefaults.filterChipColors(
                     containerColor = Color.White,
                     labelColor = Color(0xff364153),
@@ -90,8 +91,8 @@ private fun ProjectTabs(
 private fun ProjectSideBarPreview() {
     ProjectSideBar(
         modifier = Modifier.width(255.dp).fillMaxHeight(),
-        projectNames = listOf("Compose1", "Compose2", "Compose3너무너무긴제목입니다잇"),
-        selectedProjectName = "Compose1",
+        projects = listOf(KanbanProject(1, "Compose1"), KanbanProject(2, "Compose2")),
+        selectedProjectId = 1,
         onProjectSelect = {},
     )
 }

@@ -8,8 +8,8 @@ import woowacourse.kanban.board.domain.model.ProjectGroup
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Task
 
-class ProjectState(val projects: List<KanbanProject>, initialProject: KanbanProject) {
-    var projectGroup: ProjectGroup by mutableStateOf(ProjectGroup(projects, initialProject.name))
+class ProjectState(val projects: List<KanbanProject>, initialProjectId: Long) {
+    var projectGroup: ProjectGroup by mutableStateOf(ProjectGroup(projects, initialProjectId))
 
     val totalCount: Int get() = projectGroup.selectedProject.tasks.size
     val completeCount: Int get() = projectGroup.selectedProject.tasks.count { it.status == Status.DONE }
@@ -19,7 +19,7 @@ class ProjectState(val projects: List<KanbanProject>, initialProject: KanbanProj
         projectGroup = projectGroup.addTask(task)
     }
 
-    fun selectProject(project: String) {
-        projectGroup = projectGroup.changeProject(project)
+    fun selectProject(projectId: Long) {
+        projectGroup = projectGroup.changeProject(projectId)
     }
 }

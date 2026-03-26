@@ -87,8 +87,8 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
         }
         Row {
             ProjectSideBar(
-                projectNames = projectState.projects.map { it.name },
-                selectedProjectName = projectState.projectGroup.selectedProject.name,
+                projects = projectState.projects,
+                selectedProjectId = projectState.projectGroup.selectedProject.id,
                 onProjectSelect = { projectState.selectProject(it) },
                 modifier = Modifier.width(255.dp).fillMaxHeight().semantics { contentDescription = "Project SideBar" },
             )
@@ -120,8 +120,7 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
                     currentDragPosition = null
                     draggedTask = null
                 },
-                uiState = projectState,
-                project = projectState.projectGroup.selectedProject,
+                projectState = projectState,
                 onClickCreate = { showDialog = true },
                 modifier = Modifier.semantics { contentDescription = "${projectState.projectGroup.selectedProject.name} 화면" },
             )
@@ -137,5 +136,5 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
 @Composable
 @Preview
 private fun KanbanBoardScreenPreview() {
-    KanbanBoardScreen(initialProjectState = ProjectState(listOf(), KanbanProject("A프로젝트")))
+    KanbanBoardScreen(initialProjectState = ProjectState(listOf(KanbanProject(id = 1, name = "허닛은 바보인가?")), 1))
 }
