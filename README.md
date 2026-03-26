@@ -30,25 +30,25 @@ _[피그마 시안](https://www.figma.com/design/3aBG3UfkTwmHM8BnPyahtT/8%EA%B8%
 
     ```gherkin
     Scenario: 사용자가 태스크의 상태를 전환하려는 상황
-        Given X상태의 A 태스크가 있다
-        When 사용자가 태스크를 드래그앤드롭한다
-        Then X상태 태스크 박스에 A태스크가 표시된다
+        Given TODO 상태의 A 태스크가 있다
+        When 사용자가 태스크를 사이드바로 드래그앤드롭한다
+        Then TODO 상태 태스크 박스에 A태스크가 표시된다
     ```
 
 - [x] 동일한 상태의 태스크박스에 드롭할 경우 상태가 바뀌지 않는다
     ```gherkin
     Scenario: 사용자가 태스크의 상태를 전환하려는 상황
-        Given X상태의 A 태스크를 태스크박스 내부에서 드래그한다
-        When 사용자가 태스크를 드롭한다
-        Then X상태 태스크 박스에 A태스크가 표시된다
+        Given TODO 상태의 A 태스크가 있다
+        When 사용자가 태스크를 TODO 테스크 박스로 드래그앤드롭한다
+        Then TODO 상태 태스크 박스에 A태스크가 표시된다
     ```
 
 - [x] 다른 상태의 태스크박스에 드롭할 경우 해당 상태로 변경한다
     ```gherkin
     Scenario: 사용자가 태스크의 상태를 전환하려는 상황
-        Given X상태의 A 태스크를 Y상태의 태스크 박스로 드래그한다
-        When 사용자가 태스크를 드롭한다
-        Then X상태 태스크 박스에서 A태스크가 사라지고, Y상태 태스크 박스에 A태스크가 표시된다
+        Given TODO 상태의 A 태스크가 있다
+        When 사용자가 태스크를 IN_PROGRESS 테스크 박스로 드래그앤드롭한다
+        Then TODO 상태 태스크 박스에서 A태스크가 사라지고, IN_PROGRESS 상태 태스크 박스에 A태스크가 표시된다
     ```
 
 ## 프로그래밍 요구 사항
