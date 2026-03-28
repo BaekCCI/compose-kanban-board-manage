@@ -24,16 +24,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.model.KanbanProject
-import woowacourse.kanban.board.domain.model.ProjectGroup
+import java.util.UUID
 
 @Composable
-fun ProjectSideBar(projectGroup: ProjectGroup, onProjectSelect: (Long) -> Unit, modifier: Modifier = Modifier, innerPadding: Dp = 16.dp) {
+fun ProjectSideBar(
+    projects: List<KanbanProject>,
+    selectedProjectId: UUID,
+    onProjectSelect: (UUID) -> Unit,
+    modifier: Modifier = Modifier,
+    innerPadding: Dp = 16.dp,
+) {
     Column(
         modifier = modifier,
     ) {
         SideBarHeader(modifier = Modifier.padding(innerPadding))
         HorizontalDivider(modifier = Modifier.height(1.dp).background(Color(0xffE5E7EB)))
-        ProjectTabs(projectGroup.projects, projectGroup.selectedProject.id, onProjectSelect, modifier = Modifier.padding(innerPadding))
+        ProjectTabs(projects, selectedProjectId, onProjectSelect, modifier = Modifier.padding(innerPadding))
     }
 }
 
@@ -50,8 +56,8 @@ private fun SideBarHeader(modifier: Modifier = Modifier) {
 @Composable
 private fun ProjectTabs(
     projects: List<KanbanProject>,
-    selectedProjectId: Long,
-    onProjectSelect: (Long) -> Unit,
+    selectedProjectId: UUID,
+    onProjectSelect: (UUID) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -83,9 +89,11 @@ private fun ProjectTabs(
 @Preview(showBackground = true)
 @Composable
 private fun ProjectSideBarPreview() {
+    val projectId = UUID.randomUUID()
     ProjectSideBar(
         modifier = Modifier.width(255.dp).fillMaxHeight(),
-        projectGroup = ProjectGroup(listOf(KanbanProject(1, "Compose1"), KanbanProject(2, "Compose2")), 1),
+        projects = listOf(KanbanProject(id = projectId, name = "project1"), KanbanProject(name = "project2")),
+        selectedProjectId = projectId,
         onProjectSelect = {},
     )
 }

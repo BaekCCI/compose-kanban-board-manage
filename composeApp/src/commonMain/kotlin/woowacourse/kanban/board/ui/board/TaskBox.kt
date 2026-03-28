@@ -38,6 +38,7 @@ import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.util.toUiString
+import java.util.UUID
 
 @Composable
 fun TaskBox(
@@ -132,18 +133,82 @@ fun Status.getBoxColor(): TaskBoxColor = when (this) {
 @Preview
 @Composable
 private fun TaskBoxPreview() {
+    val projectId: UUID = UUID.randomUUID()
     TaskBox(
         status = Status.DONE,
         tasks = listOf(
-            Task(title = "Task 1", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
-            Task(title = "Task 2", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
-            Task(title = "Task 3", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
-            Task(title = "Task 1", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
-            Task(title = "Task 2", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
-            Task(title = "Task 3", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
-            Task(title = "Task 1", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
-            Task(title = "Task 2", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
-            Task(title = "Task 3", description = "asdfasd", tags = Tags(emptyList()), user = User("dino"), status = Status.TODO),
+            Task(
+                projectId = projectId,
+                title = "Task 1",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
+            Task(
+                projectId = projectId,
+                title = "Task 2",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
+            Task(
+                projectId = projectId,
+                title = "Task 3",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
+            Task(
+                projectId = projectId,
+                title = "Task 1",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
+            Task(
+                projectId = projectId,
+                title = "Task 2",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
+            Task(
+                projectId = projectId,
+                title = "Task 3",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
+            Task(
+                projectId = projectId,
+                title = "Task 1",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
+            Task(
+                projectId = projectId,
+                title = "Task 2",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
+            Task(
+                projectId = projectId,
+                title = "Task 3",
+                description = "asdfasd",
+                tags = Tags(emptyList()),
+                user = User("dino"),
+                status = Status.TODO,
+            ),
         ),
         boxColor = Status.DONE.getBoxColor(),
     )

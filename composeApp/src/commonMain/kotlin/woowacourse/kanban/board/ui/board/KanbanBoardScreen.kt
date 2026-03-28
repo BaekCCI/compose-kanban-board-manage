@@ -25,30 +25,28 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kanbanboard.composeapp.generated.resources.Res
-import kanbanboard.composeapp.generated.resources.snackbar_create_new_task
-import kanbanboard.composeapp.generated.resources.snackbar_error_create_new_task
 import kanbanboard.composeapp.generated.resources.snackbar_unknown_error
 import org.jetbrains.compose.resources.getString
-import woowacourse.kanban.board.domain.TaskCreator
 import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.ui.dialog.TaskCreateDialog
-import woowacourse.kanban.board.ui.util.SnackBarEvent
 
 @Composable
-fun KanbanBoardScreen(initialProjectState: ProjectState) {
-    val projectState = remember { initialProjectState }
+fun KanbanBoardScreen(
+    projects: List<KanbanProject>,
+    tasks: List<Task>,
+) {
+    val projectStateHolder = remember { ProjectStateHolder(projects, tasks) }
     var showDialog by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
-    var snackBarEvent: SnackBarEvent? by remember { mutableStateOf(null) }
 
     var draggedTask by remember { mutableStateOf<Task?>(null) }
     var currentDragPosition by remember { mutableStateOf<Offset?>(null) }
     val columnBounds = remember { mutableStateMapOf<Status, Rect>() }
 
-    LaunchedEffect(snackBarEvent?.id) {
-        snackBarEvent?.let {
+    LaunchedEffect(projectStateHolder.snackBarEvent?.id) {
+        projectStateHolder.snackBarEvent?.let {
             snackBarHostState.showSnackbar(
                 message = when {
                     it.message != null -> it.message
@@ -58,7 +56,6 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
                 withDismissAction = true,
             )
         }
-        snackBarEvent = null
     }
 
     Box {
@@ -66,29 +63,16 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
             TaskCreateDialog(
                 onDismissRequest = { showDialog = false },
                 onConfirm = { title, description, tags, status, assignee ->
-                    val result =
-                        TaskCreator.create(title = title, description = description, tags = tags, assignee = assignee, status = status)
-
-                    result.onSuccess { newTask ->
-                        projectState.createTask(newTask)
-                        showDialog = false
-                        snackBarEvent =
-                            SnackBarEvent(
-                                strRes = Res.string.snackbar_create_new_task,
-                            )
-                    }.onFailure { exception ->
-                        snackBarEvent = SnackBarEvent(
-                            strRes = Res.string.snackbar_error_create_new_task,
-                            message = exception.message,
-                        )
-                    }
+                    projectStateHolder.addTask(title = title, description = description, tags = tags, assignee = assignee, status = status)
+                    showDialog = false
                 },
             )
         }
         Row {
             ProjectSideBar(
-                projectGroup = projectState.projectGroup,
-                onProjectSelect = { projectState.selectProject(it) },
+                projects = projectStateHolder.projects,
+                selectedProjectId = projectStateHolder.selectedProjectId,
+                onProjectSelect = { projectStateHolder.changeProject(it) },
                 modifier = Modifier.width(255.dp).fillMaxHeight().semantics { contentDescription = "Project SideBar" },
             )
             VerticalDivider(modifier = Modifier.width(1.dp).background(Color(0xffE5E7EB)))
@@ -106,10 +90,7 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
 
                     draggedTask?.let { task ->
                         if (targetStatus != null && task.status != targetStatus) {
-                            projectState.changeTaskStatus(task = task, newStatus = targetStatus)
-                            snackBarEvent = SnackBarEvent(
-                                message = "태스크가 이동되었습니다.",
-                            )
+                            projectStateHolder.changeTaskStatus(task = task, newStatus = targetStatus)
                         }
                     }
                     currentDragPosition = null
@@ -119,9 +100,9 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
                     currentDragPosition = null
                     draggedTask = null
                 },
-                projectState = projectState,
+                projectStateHolder = projectStateHolder,
                 onClickCreate = { showDialog = true },
-                modifier = Modifier.semantics { contentDescription = "${projectState.projectGroup.selectedProject.name} 화면" },
+                modifier = Modifier.semantics { contentDescription = "${projectStateHolder.selectedProject.name} 화면" },
             )
         }
 
@@ -135,5 +116,5 @@ fun KanbanBoardScreen(initialProjectState: ProjectState) {
 @Composable
 @Preview
 private fun KanbanBoardScreenPreview() {
-    KanbanBoardScreen(initialProjectState = ProjectState(listOf(KanbanProject(id = 1, name = "허닛은 바보인가?")), 1))
+    KanbanBoardScreen(listOf(KanbanProject(name = "project1")), emptyList())
 }
