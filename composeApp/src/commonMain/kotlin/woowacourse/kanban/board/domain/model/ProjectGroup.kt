@@ -1,10 +1,12 @@
 package woowacourse.kanban.board.domain.model
 
+import java.util.UUID
+
 class ProjectGroup(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {
     private val _projects: MutableList<KanbanProject> = initialProjects.toMutableList()
     val projects get() = _projects.toList()
 
-    private val projectTasks: MutableMap<Long, MutableList<Task>> =
+    private val projectTasks: MutableMap<UUID, MutableList<Task>> =
         initialProjects.associate { project ->
             project.id to initialTasks.filter { task ->
                 task.projectId == project.id
@@ -17,7 +19,7 @@ class ProjectGroup(initialProjects: List<KanbanProject> = emptyList(), initialTa
         tags: List<String>,
         assignee: User,
         status: Status,
-        projectId: Long,
+        projectId: UUID,
     ): Result<List<Task>> {
         val tasks = projectTasks[projectId] ?: return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
         val newTask = try {
@@ -36,7 +38,7 @@ class ProjectGroup(initialProjects: List<KanbanProject> = emptyList(), initialTa
         return Result.success(tasks.toList())
     }
 
-    fun changeTaskStatus(projectId: Long, task: Task, newStatus: Status): Result<List<Task>> {
+    fun changeTaskStatus(projectId: UUID, task: Task, newStatus: Status): Result<List<Task>> {
         val tasks = projectTasks[projectId] ?: return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
 
         val idx = tasks.indexOfFirst { it.id == task.id }
@@ -46,7 +48,7 @@ class ProjectGroup(initialProjects: List<KanbanProject> = emptyList(), initialTa
         return Result.success(tasks.toList())
     }
 
-    fun getTasks(projectId: Long): Result<List<Task>> {
+    fun getTasks(projectId: UUID): Result<List<Task>> {
         return projectTasks[projectId]?.let { Result.success(it.toList()) }
             ?: Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
     }

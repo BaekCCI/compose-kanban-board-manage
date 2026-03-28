@@ -1,3 +1,5 @@
 package woowacourse.kanban.board.domain.model
 
-data class KanbanProject(val id: Long, val name: String)
+import java.util.UUID
+
+data class KanbanProject(val id: UUID = UUID.randomUUID(), val name: String)

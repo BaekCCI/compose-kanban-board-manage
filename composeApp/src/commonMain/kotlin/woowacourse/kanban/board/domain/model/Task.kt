@@ -1,8 +1,10 @@
 package woowacourse.kanban.board.domain.model
 
+import java.util.UUID
+
 data class Task(
-    val id: Long = System.currentTimeMillis(),
-    val projectId: Long,
+    val id: UUID = UUID.randomUUID(),
+    val projectId: UUID,
     val title: String,
     val description: String? = null,
     val tags: Tags,

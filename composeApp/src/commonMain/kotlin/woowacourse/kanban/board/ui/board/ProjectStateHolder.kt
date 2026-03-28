@@ -14,6 +14,7 @@ import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.util.SnackBarEvent
+import java.util.UUID
 
 @Stable
 class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {
@@ -21,22 +22,24 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), ini
 
     var projects: List<KanbanProject> by mutableStateOf(projectGroup.projects)
         private set
-    var selectedProjectId: Long by mutableLongStateOf(projects.first().id)
+    var selectedProjectId: UUID by mutableStateOf(projects.first().id)
         private set
-    var tasks: List<Task> by mutableStateOf(emptyList())
+    var projectTasks: List<Task> by mutableStateOf(emptyList())
         private set
     var snackBarEvent: SnackBarEvent? by mutableStateOf(null)
         private set
 
-    val totalCount: Int get() = tasks.size
-    val completeCount: Int get() = tasks.count { it.status == Status.DONE }
+    val totalCount: Int get() = projectTasks.size
+    val completeCount: Int get() = projectTasks.count { it.status == Status.DONE }
     val completeRatio: Float get() = if (totalCount == 0) 0f else completeCount.toFloat() / totalCount.toFloat()
+
+    val selectedProject get() = projects.first { it.id == selectedProjectId }
 
     init {
         loadTasks(selectedProjectId)
     }
 
-    fun changeProject(projectId: Long) {
+    fun changeProject(projectId: UUID) {
         selectedProjectId = projectId
         loadTasks(projectId)
     }
@@ -52,7 +55,7 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), ini
         )
 
         result.onSuccess { newTasks ->
-            tasks = newTasks
+            projectTasks = newTasks
             snackBarEvent = SnackBarEvent(strRes = Res.string.snackbar_create_new_task)
         }.onFailure { exception ->
             snackBarEvent = SnackBarEvent(
@@ -66,17 +69,20 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), ini
         val result = projectGroup.changeTaskStatus(selectedProjectId, task, newStatus)
 
         result.onSuccess { newTasks ->
-            tasks = newTasks
+            projectTasks = newTasks
+            snackBarEvent = SnackBarEvent(
+                message = "태스크가 이동되었습니다.",
+            )
         }.onFailure { exception ->
             snackBarEvent = SnackBarEvent(message = exception.message)
         }
     }
 
-    private fun loadTasks(projectId: Long) {
+    private fun loadTasks(projectId: UUID) {
         val result = projectGroup.getTasks(projectId)
 
         result.onSuccess { newTasks ->
-            tasks = newTasks
+            projectTasks = newTasks
         }.onFailure { exception ->
             snackBarEvent = SnackBarEvent(message = exception.message)
         }
