@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.UUID
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tag
 import woowacourse.kanban.board.domain.model.Tags
@@ -41,7 +42,6 @@ import woowacourse.kanban.board.ui.theme.Gray100
 import woowacourse.kanban.board.ui.theme.Gray200
 import woowacourse.kanban.board.ui.theme.Gray600
 import woowacourse.kanban.board.ui.theme.Gray900
-import java.util.UUID
 
 private const val TITLE_MAX_LINE = 1
 private const val CONTENT_MAX_LINE = 2

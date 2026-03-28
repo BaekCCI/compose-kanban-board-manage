@@ -2,9 +2,9 @@ package woowacourse.kanban.board.ui.board
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import java.util.UUID
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.snackbar_create_new_task
 import kanbanboard.composeapp.generated.resources.snackbar_error_create_new_task
@@ -14,7 +14,6 @@ import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.util.SnackBarEvent
-import java.util.UUID
 
 @Stable
 class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {

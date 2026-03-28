@@ -33,9 +33,7 @@ import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.ui.dialog.TaskCreateDialog
 
 @Composable
-fun KanbanBoardScreen(
-    projectStateHolder: ProjectStateHolder,
-) {
+fun KanbanBoardScreen(projectStateHolder: ProjectStateHolder) {
     var showDialog by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
 

@@ -23,8 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.model.KanbanProject
 import java.util.UUID
+import woowacourse.kanban.board.domain.model.KanbanProject
 
 @Composable
 fun ProjectSideBar(

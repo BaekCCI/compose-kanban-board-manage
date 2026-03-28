@@ -6,6 +6,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
+import java.util.UUID
 import kotlin.test.Test
 import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.domain.model.Status
@@ -13,7 +14,6 @@ import woowacourse.kanban.board.domain.model.Tag
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
-import java.util.UUID
 
 @OptIn(ExperimentalTestApi::class)
 class BoardTest {
@@ -110,7 +110,6 @@ class BoardTest {
             status = Status.TODO,
         )
         val state = ProjectStateHolder(listOf(KanbanProject(id = projectId, name = "A 프로젝트")), listOf(task))
-
 
         // When 사용자가 태스크를 드롭한다
         setContent {

@@ -70,5 +70,5 @@ fun TaskBoard(
 @Preview(showBackground = true, widthDp = 800)
 @Composable
 private fun TaskBoardPreview() {
-    TaskBoard(projectStateHolder = ProjectStateHolder(listOf(KanbanProject( name = "스마일은 천재인가?"))))
+    TaskBoard(projectStateHolder = ProjectStateHolder(listOf(KanbanProject(name = "스마일은 천재인가?"))))
 }

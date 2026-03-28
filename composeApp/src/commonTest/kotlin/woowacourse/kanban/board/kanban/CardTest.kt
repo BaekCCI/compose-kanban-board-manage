@@ -1,5 +1,6 @@
 package woowacourse.kanban.board.kanban
 
+import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -8,7 +9,6 @@ import woowacourse.kanban.board.domain.model.Tag
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
-import java.util.UUID
 
 class CardTest {
 
@@ -36,7 +36,10 @@ class CardTest {
     @Test
     fun `카드에 타이틀만 있어도 생성 성공`() {
         val given = "타이틀"
-        assertEquals(given, Task(projectId = UUID.randomUUID(),title = given, tags = Tags(), user = User("테스트"), status = Status.TODO).title)
+        assertEquals(
+            given,
+            Task(projectId = UUID.randomUUID(), title = given, tags = Tags(), user = User("테스트"), status = Status.TODO).title,
+        )
     }
 
     @Test
@@ -44,14 +47,21 @@ class CardTest {
         val given = "내용"
         assertEquals(
             given,
-            Task(projectId = UUID.randomUUID(),title = "타이틀", description = given, tags = Tags(), user = User("테스트"), status = Status.TODO).description,
+            Task(
+                projectId = UUID.randomUUID(),
+                title = "타이틀",
+                description = given,
+                tags = Tags(),
+                user = User("테스트"),
+                status = Status.TODO,
+            ).description,
         )
     }
 
     @Test
     fun `카드에 태그가 5개 이하면 생성 성공`() {
         val given = Tags(listOf(Tag("컴포넌트"), Tag("성능"), Tag("컴포즈"), Tag("테스트"), Tag("안드로이드")))
-        Task(projectId = UUID.randomUUID(),title = "타이틀", tags = given, user = User("테스트"), status = Status.TODO)
+        Task(projectId = UUID.randomUUID(), title = "타이틀", tags = given, user = User("테스트"), status = Status.TODO)
     }
 
     @Test

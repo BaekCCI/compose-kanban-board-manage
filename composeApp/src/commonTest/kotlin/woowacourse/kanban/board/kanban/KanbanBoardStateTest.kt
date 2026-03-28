@@ -1,5 +1,6 @@
 package woowacourse.kanban.board.kanban
 
+import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import woowacourse.kanban.board.domain.model.Status
@@ -7,7 +8,6 @@ import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.board.TaskBoardState
-import java.util.UUID
 
 class KanbanBoardStateTest {
 

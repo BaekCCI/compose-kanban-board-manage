@@ -4,6 +4,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
+import java.util.UUID
 import kotlin.test.Test
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tag
@@ -11,7 +12,6 @@ import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.board.TaskCard
-import java.util.UUID
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanCardUiTest {
@@ -23,7 +23,16 @@ class KanbanCardUiTest {
         val user = User(name = "다이노")
 
         setContent {
-            TaskCard(Task(projectId = UUID.randomUUID(),title = title, description = content, tags = tags, user = user, status = Status.TODO))
+            TaskCard(
+                Task(
+                    projectId = UUID.randomUUID(),
+                    title = title,
+                    description = content,
+                    tags = tags,
+                    user = user,
+                    status = Status.TODO,
+                ),
+            )
         }
 
         onNodeWithText(title).assertIsDisplayed()
