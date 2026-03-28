@@ -38,6 +38,7 @@ import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
+import woowacourse.kanban.board.ui.component.DraggableContainer
 import woowacourse.kanban.board.ui.util.toUiString
 
 @Composable
@@ -95,14 +96,17 @@ fun TaskBox(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             items(tasks, key = { it.id }) {
-                TaskCard(
-                    task = it,
+                DraggableContainer(
                     onDragStart = { onTaskDragStart(it) },
                     onDragChange = onTaskDragChange,
                     onDragEnd = onTaskDragEnd,
                     onDragCancel = onTaskDragCancel,
-                    modifier = Modifier.fillMaxWidth().semantics { contentDescription = "${it.status}상태의 ${it.title}태스크" },
-                )
+                ) {
+                    TaskCard(
+                        task = it,
+                        modifier = Modifier.fillMaxWidth().semantics { contentDescription = "${it.status}상태의 ${it.title}태스크" },
+                    )
+                }
             }
         }
     }
