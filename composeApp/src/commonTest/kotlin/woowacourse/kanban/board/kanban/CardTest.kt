@@ -8,6 +8,7 @@ import woowacourse.kanban.board.domain.model.Tag
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
+import java.util.UUID
 
 class CardTest {
 
@@ -22,6 +23,7 @@ class CardTest {
     fun `카드에 유저를 제외한 필드가 모두 비어있으면 예외`() {
         assertFails {
             Task(
+                projectId = UUID.randomUUID(),
                 title = "",
                 description = "",
                 tags = Tags(),
@@ -34,7 +36,7 @@ class CardTest {
     @Test
     fun `카드에 타이틀만 있어도 생성 성공`() {
         val given = "타이틀"
-        assertEquals(given, Task(title = given, tags = Tags(), user = User("테스트"), status = Status.TODO).title)
+        assertEquals(given, Task(projectId = UUID.randomUUID(),title = given, tags = Tags(), user = User("테스트"), status = Status.TODO).title)
     }
 
     @Test
@@ -42,14 +44,14 @@ class CardTest {
         val given = "내용"
         assertEquals(
             given,
-            Task(title = "타이틀", description = given, tags = Tags(), user = User("테스트"), status = Status.TODO).description,
+            Task(projectId = UUID.randomUUID(),title = "타이틀", description = given, tags = Tags(), user = User("테스트"), status = Status.TODO).description,
         )
     }
 
     @Test
     fun `카드에 태그가 5개 이하면 생성 성공`() {
         val given = Tags(listOf(Tag("컴포넌트"), Tag("성능"), Tag("컴포즈"), Tag("테스트"), Tag("안드로이드")))
-        Task(title = "타이틀", tags = given, user = User("테스트"), status = Status.TODO)
+        Task(projectId = UUID.randomUUID(),title = "타이틀", tags = given, user = User("테스트"), status = Status.TODO)
     }
 
     @Test
@@ -60,6 +62,7 @@ class CardTest {
         val givenUser = User("다이노")
 
         val card = Task(
+            projectId = UUID.randomUUID(),
             title = givenTitle,
             description = givenContent,
             tags = givenTags,

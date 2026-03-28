@@ -7,10 +7,12 @@ import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.board.TaskBoardState
+import java.util.UUID
 
 class KanbanBoardStateTest {
 
     private val task = Task(
+        projectId = UUID.randomUUID(),
         title = "태스크",
         tags = Tags(),
         user = User("테스터"),
