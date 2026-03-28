@@ -9,7 +9,7 @@ import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.snackbar_create_new_task
 import kanbanboard.composeapp.generated.resources.snackbar_error_create_new_task
 import woowacourse.kanban.board.domain.model.KanbanProject
-import woowacourse.kanban.board.domain.model.ProjectGroup
+import woowacourse.kanban.board.domain.model.KanbanWorkspace
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
@@ -17,7 +17,7 @@ import woowacourse.kanban.board.ui.util.SnackBarEvent
 
 @Stable
 class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {
-    private val projectGroup = ProjectGroup(initialProjects, initialTasks)
+    private val projectGroup = KanbanWorkspace(initialProjects, initialTasks)
 
     var projects: List<KanbanProject> by mutableStateOf(projectGroup.projects)
         private set

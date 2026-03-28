@@ -2,7 +2,7 @@ package woowacourse.kanban.board.domain.model
 
 import java.util.UUID
 
-class ProjectGroup(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {
+class KanbanWorkspace(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {
     private val _projects: MutableList<KanbanProject> = initialProjects.toMutableList()
     val projects get() = _projects.toList()
 
