@@ -2,6 +2,7 @@ package woowacourse.kanban.board.domain.model
 
 data class Task(
     val id: Long = System.currentTimeMillis(),
+    val projectId: Long,
     val title: String,
     val description: String? = null,
     val tags: Tags,
