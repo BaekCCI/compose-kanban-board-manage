@@ -11,10 +11,28 @@ class ProjectGroup(initialProjects: List<KanbanProject> = emptyList(), initialTa
             }.toMutableList()
         }.toMutableMap()
 
-    fun addTask(projectId: Long, task: Task): Result<List<Task>> {
+    fun addTask(
+        title: String,
+        description: String,
+        tags: List<String>,
+        assignee: User,
+        status: Status,
+        projectId: Long,
+    ): Result<List<Task>> {
         val tasks = projectTasks[projectId] ?: return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
-
-        tasks.add(task)
+        val newTask = try {
+            Task(
+                title = title,
+                description = description,
+                tags = Tags(tags.map { Tag(it) }),
+                user = assignee,
+                status = status,
+                projectId = projectId,
+            )
+        } catch (e: IllegalArgumentException) {
+            return Result.failure(e)
+        }
+        tasks.add(newTask)
         return Result.success(tasks.toList())
     }
 
