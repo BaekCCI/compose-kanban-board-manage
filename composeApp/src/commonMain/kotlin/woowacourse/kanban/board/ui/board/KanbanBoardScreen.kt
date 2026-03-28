@@ -34,10 +34,8 @@ import woowacourse.kanban.board.ui.dialog.TaskCreateDialog
 
 @Composable
 fun KanbanBoardScreen(
-    projects: List<KanbanProject>,
-    tasks: List<Task>,
+    projectStateHolder: ProjectStateHolder,
 ) {
-    val projectStateHolder = remember { ProjectStateHolder(projects, tasks) }
     var showDialog by remember { mutableStateOf(false) }
     val snackBarHostState = remember { SnackbarHostState() }
 
@@ -116,5 +114,12 @@ fun KanbanBoardScreen(
 @Composable
 @Preview
 private fun KanbanBoardScreenPreview() {
-    KanbanBoardScreen(listOf(KanbanProject(name = "project1")), emptyList())
+    KanbanBoardScreen(
+        remember {
+            ProjectStateHolder(
+                initialProjects = listOf(KanbanProject(name = "project1"), KanbanProject(name = "project2")),
+                initialTasks = emptyList(),
+            )
+        },
+    )
 }
