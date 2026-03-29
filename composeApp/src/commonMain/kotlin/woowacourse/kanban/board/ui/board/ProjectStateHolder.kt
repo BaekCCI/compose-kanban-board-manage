@@ -1,6 +1,5 @@
 package woowacourse.kanban.board.ui.board
 
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -15,7 +14,6 @@ import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.util.SnackBarEvent
 
-@Stable
 class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {
     private val projectGroup = KanbanWorkspace(initialProjects, initialTasks)
 
