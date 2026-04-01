@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Task
 
+// TODO: 삭제
 class TaskBoardState {
     var tasks: List<Task> by mutableStateOf(emptyList())
 

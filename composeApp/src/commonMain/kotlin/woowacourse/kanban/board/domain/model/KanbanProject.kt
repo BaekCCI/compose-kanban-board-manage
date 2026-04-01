@@ -3,7 +3,6 @@ package woowacourse.kanban.board.domain.model
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-
 @OptIn(ExperimentalUuidApi::class)
 data class KanbanProject(val id: String = Uuid.random().toString(), val name: String, val tasks: List<Task> = emptyList()) {
     val totalCount: Int get() = tasks.size

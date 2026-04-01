@@ -67,7 +67,7 @@ fun KanbanBoardScreen(projectStateHolder: ProjectStateHolder) {
         Row {
             ProjectSideBar(
                 projects = projectStateHolder.projects,
-                selectedProjectId = projectStateHolder.selectedProjectId,
+                selectedProjectId = projectStateHolder.currentProject.id,
                 onProjectSelect = { projectStateHolder.changeProject(it) },
                 modifier = Modifier.width(255.dp).fillMaxHeight().semantics { contentDescription = "Project SideBar" },
             )
@@ -96,9 +96,9 @@ fun KanbanBoardScreen(projectStateHolder: ProjectStateHolder) {
                     currentDragPosition = null
                     draggedTask = null
                 },
-                projectStateHolder = projectStateHolder,
+                projectTask = projectStateHolder.currentProject,
                 onClickCreate = { showDialog = true },
-                modifier = Modifier.semantics { contentDescription = "${projectStateHolder.selectedProject.name} 화면" },
+                modifier = Modifier.semantics { contentDescription = "${projectStateHolder.currentProject.name} 화면" },
             )
         }
 
@@ -116,7 +116,6 @@ private fun KanbanBoardScreenPreview() {
         remember {
             ProjectStateHolder(
                 initialProjects = listOf(KanbanProject(name = "project1"), KanbanProject(name = "project2")),
-                initialTasks = emptyList(),
             )
         },
     )

@@ -23,14 +23,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.util.UUID
 import woowacourse.kanban.board.domain.model.KanbanProject
 
 @Composable
 fun ProjectSideBar(
     projects: List<KanbanProject>,
-    selectedProjectId: UUID,
-    onProjectSelect: (UUID) -> Unit,
+    selectedProjectId: String,
+    onProjectSelect: (String) -> Unit,
     modifier: Modifier = Modifier,
     innerPadding: Dp = 16.dp,
 ) {
@@ -56,8 +55,8 @@ private fun SideBarHeader(modifier: Modifier = Modifier) {
 @Composable
 private fun ProjectTabs(
     projects: List<KanbanProject>,
-    selectedProjectId: UUID,
-    onProjectSelect: (UUID) -> Unit,
+    selectedProjectId: String,
+    onProjectSelect: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -89,11 +88,10 @@ private fun ProjectTabs(
 @Preview(showBackground = true)
 @Composable
 private fun ProjectSideBarPreview() {
-    val projectId = UUID.randomUUID()
     ProjectSideBar(
         modifier = Modifier.width(255.dp).fillMaxHeight(),
-        projects = listOf(KanbanProject(id = projectId, name = "project1"), KanbanProject(name = "project2")),
-        selectedProjectId = projectId,
+        projects = listOf(KanbanProject(id = "1", name = "project1"), KanbanProject(name = "project2")),
+        selectedProjectId = "1",
         onProjectSelect = {},
     )
 }

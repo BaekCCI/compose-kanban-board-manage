@@ -102,14 +102,12 @@ class CardPreviewParameterProvider : PreviewParameterProvider<Task> {
             tags = Tags(listOf(Tag("컴포넌트"), Tag("성능"))),
             user = User(name = "다이노"),
             status = Status.TODO,
-            projectId = projectId,
         ),
         Task(
             title = "LazyColumn 컴포넌트 구현",
             tags = Tags(listOf(Tag("컴포넌트"), Tag("성능"))),
             user = User(name = "다이노"),
             status = Status.TODO,
-            projectId = projectId,
         ),
         Task(
             title = "LazyColumn 컴포넌트 구현",
@@ -117,14 +115,12 @@ class CardPreviewParameterProvider : PreviewParameterProvider<Task> {
             user = User(name = "다이노"),
             tags = Tags(emptyList()),
             status = Status.TODO,
-            projectId = projectId,
         ),
         Task(
             title = "LazyColumn 컴포넌트 구현",
             user = User(name = "다이노"),
             tags = Tags(emptyList()),
             status = Status.TODO,
-            projectId = projectId,
         ),
         Task(
             title = "LazyColumn 컴포넌트 구현",
@@ -132,7 +128,6 @@ class CardPreviewParameterProvider : PreviewParameterProvider<Task> {
             tags = Tags(listOf(Tag("너무너무"), Tag("긴 태그"), Tag("최대로"), Tag("5자까지"), Tag("5개제한임"))),
             user = User(name = "너무너무너무 긴 담당자도 한 줄 너무너무너무 긴 담당자도 한 줄"),
             status = Status.TODO,
-            projectId = projectId,
         ),
     )
 }

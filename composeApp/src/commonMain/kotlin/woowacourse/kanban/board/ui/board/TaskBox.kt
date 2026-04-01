@@ -32,7 +32,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.util.UUID
 import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tags
@@ -137,12 +136,10 @@ fun Status.getBoxColor(): TaskBoxColor = when (this) {
 @Preview
 @Composable
 private fun TaskBoxPreview() {
-    val projectId: UUID = UUID.randomUUID()
     TaskBox(
         status = Status.DONE,
         tasks = listOf(
             Task(
-                projectId = projectId,
                 title = "Task 1",
                 description = "asdfasd",
                 tags = Tags(emptyList()),
@@ -150,7 +147,6 @@ private fun TaskBoxPreview() {
                 status = Status.TODO,
             ),
             Task(
-                projectId = projectId,
                 title = "Task 2",
                 description = "asdfasd",
                 tags = Tags(emptyList()),
@@ -158,7 +154,6 @@ private fun TaskBoxPreview() {
                 status = Status.TODO,
             ),
             Task(
-                projectId = projectId,
                 title = "Task 3",
                 description = "asdfasd",
                 tags = Tags(emptyList()),
@@ -166,7 +161,6 @@ private fun TaskBoxPreview() {
                 status = Status.TODO,
             ),
             Task(
-                projectId = projectId,
                 title = "Task 1",
                 description = "asdfasd",
                 tags = Tags(emptyList()),
@@ -174,7 +168,6 @@ private fun TaskBoxPreview() {
                 status = Status.TODO,
             ),
             Task(
-                projectId = projectId,
                 title = "Task 2",
                 description = "asdfasd",
                 tags = Tags(emptyList()),
@@ -182,7 +175,6 @@ private fun TaskBoxPreview() {
                 status = Status.TODO,
             ),
             Task(
-                projectId = projectId,
                 title = "Task 3",
                 description = "asdfasd",
                 tags = Tags(emptyList()),
@@ -190,7 +182,6 @@ private fun TaskBoxPreview() {
                 status = Status.TODO,
             ),
             Task(
-                projectId = projectId,
                 title = "Task 1",
                 description = "asdfasd",
                 tags = Tags(emptyList()),
@@ -198,7 +189,6 @@ private fun TaskBoxPreview() {
                 status = Status.TODO,
             ),
             Task(
-                projectId = projectId,
                 title = "Task 2",
                 description = "asdfasd",
                 tags = Tags(emptyList()),
@@ -206,7 +196,6 @@ private fun TaskBoxPreview() {
                 status = Status.TODO,
             ),
             Task(
-                projectId = projectId,
                 title = "Task 3",
                 description = "asdfasd",
                 tags = Tags(emptyList()),

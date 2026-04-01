@@ -3,7 +3,6 @@ package woowacourse.kanban.board.domain.model
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-
 @OptIn(ExperimentalUuidApi::class)
 data class Task(
     val id: String = Uuid.random().toString(),
