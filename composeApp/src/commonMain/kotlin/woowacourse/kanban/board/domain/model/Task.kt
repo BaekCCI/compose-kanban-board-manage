@@ -1,10 +1,12 @@
 package woowacourse.kanban.board.domain.model
 
-import java.util.UUID
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+
+@OptIn(ExperimentalUuidApi::class)
 data class Task(
-    val id: UUID = UUID.randomUUID(),
-    val projectId: UUID,
+    val id: String = Uuid.random().toString(),
     val title: String,
     val description: String? = null,
     val tags: Tags,
