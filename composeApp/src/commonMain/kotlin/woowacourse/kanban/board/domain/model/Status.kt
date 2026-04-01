@@ -16,14 +16,9 @@ enum class Status(val requiredAssignee: Boolean, val canDeleteTask: Boolean) {
         }
 
     companion object {
-        fun canChangeStatus(from: Status, to: Status, hasAssignee: Boolean): Boolean {
-            return when (from) {
-                TODO -> {
-                    if (!hasAssignee) false else to in from.movableTo
-                }
-
-                else -> to in from.movableTo
-            }
+        fun validChangeStatus(from: Status, to: Status, hasAssignee: Boolean) {
+            require(to in from.movableTo) { "해당 상태로 옮길 수 없습니다." }
+            if (to.requiredAssignee) require(hasAssignee) { "담당자를 지정해야 상태를 옮길 수 있습니다." }
         }
     }
 }
