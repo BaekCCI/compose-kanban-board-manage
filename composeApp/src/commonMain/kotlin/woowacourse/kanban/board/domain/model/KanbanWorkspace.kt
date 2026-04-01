@@ -1,55 +1,37 @@
 package woowacourse.kanban.board.domain.model
 
-import java.util.UUID
+class KanbanWorkspace(private val _projectTasks: MutableList<KanbanProject> = mutableListOf()) {
 
-class KanbanWorkspace(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {
-    private val _projects: MutableList<KanbanProject> = initialProjects.toMutableList()
-    val projects get() = _projects.toList()
+    val projectTasks: List<KanbanProject> get() = _projectTasks
 
-    private val projectTasks: MutableMap<UUID, MutableList<Task>> =
-        initialProjects.associate { project ->
-            project.id to initialTasks.filter { task ->
-                task.projectId == project.id
-            }.toMutableList()
-        }.toMutableMap()
+    fun addTask(title: String, description: String, tags: List<String>, assignee: User, status: Status, projectId: String): Result<Unit> {
+        val idx = _projectTasks.indexOfFirst { it.id == projectId }
+        if (idx == -1) return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
 
-    fun addTask(
-        title: String,
-        description: String,
-        tags: List<String>,
-        assignee: User,
-        status: Status,
-        projectId: UUID,
-    ): Result<List<Task>> {
-        val tasks = projectTasks[projectId] ?: return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
-        val newTask = try {
-            Task(
+        return try {
+            val newTask = Task(
                 title = title,
                 description = description,
                 tags = Tags(tags.map { Tag(it) }),
                 user = assignee,
                 status = status,
-                projectId = projectId,
             )
+            _projectTasks[idx] = _projectTasks[idx].addTask(newTask)
+            Result.success(Unit)
         } catch (e: IllegalArgumentException) {
-            return Result.failure(e)
+            Result.failure(e)
         }
-        tasks.add(newTask)
-        return Result.success(tasks.toList())
     }
 
-    fun changeTaskStatus(projectId: UUID, task: Task, newStatus: Status): Result<List<Task>> {
-        val tasks = projectTasks[projectId] ?: return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
+    fun updateTaskStatus(projectId: String, task: Task, newStatus: Status): Result<Unit> {
+        val idx = _projectTasks.indexOfFirst { it.id == projectId }
+        if (idx == -1) return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
 
-        val idx = tasks.indexOfFirst { it.id == task.id }
-        if (idx == -1) return Result.failure(IllegalArgumentException("$task 태스크를 찾을 수 없습니다."))
-
-        tasks[idx] = task.copy(status = newStatus)
-        return Result.success(tasks.toList())
-    }
-
-    fun getTasks(projectId: UUID): Result<List<Task>> {
-        return projectTasks[projectId]?.let { Result.success(it.toList()) }
-            ?: Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
+        return try {
+            _projectTasks[idx] = _projectTasks[idx].updateStatus(task.id, newStatus)
+            Result.success(Unit)
+        } catch (e: IllegalArgumentException) {
+            Result.failure(e)
+        }
     }
 }

@@ -3,7 +3,7 @@ package woowacourse.kanban.board.ui.board
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import java.util.UUID
+import androidx.compose.runtime.toMutableStateList
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.snackbar_create_new_task
 import kanbanboard.composeapp.generated.resources.snackbar_error_create_new_task
@@ -14,45 +14,32 @@ import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.util.SnackBarEvent
 
-class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), initialTasks: List<Task> = emptyList()) {
-    private val projectGroup = KanbanWorkspace(initialProjects, initialTasks)
+class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
+    private val workspace = KanbanWorkspace(initialProjects.toMutableStateList())
 
-    var projects: List<KanbanProject> by mutableStateOf(projectGroup.projects)
+    val projects get() = workspace.projectTasks
+    var currentProjectId: String by mutableStateOf(projects.first().id)
         private set
-    var selectedProjectId: UUID by mutableStateOf(projects.first().id)
-        private set
-    var projectTasks: List<Task> by mutableStateOf(emptyList())
-        private set
+
+    val currentProject: KanbanProject get() = projects.first { it.id == currentProjectId }
     var snackBarEvent: SnackBarEvent? by mutableStateOf(null)
         private set
 
-    val totalCount: Int get() = projectTasks.size
-    val completeCount: Int get() = projectTasks.count { it.status == Status.DONE }
-    val completeRatio: Float get() = if (totalCount == 0) 0f else completeCount.toFloat() / totalCount.toFloat()
-
-    val selectedProject get() = projects.first { it.id == selectedProjectId }
-
-    init {
-        loadTasks(selectedProjectId)
-    }
-
-    fun changeProject(projectId: UUID) {
-        selectedProjectId = projectId
-        loadTasks(projectId)
+    fun changeProject(projectId: String) {
+        currentProjectId = projectId
     }
 
     fun addTask(title: String, description: String, tags: List<String>, assignee: User, status: Status) {
-        val result = projectGroup.addTask(
+        val result = workspace.addTask(
             title = title,
             description = description,
             tags = tags,
             assignee = assignee,
             status = status,
-            projectId = selectedProjectId,
+            projectId = currentProject.id,
         )
 
-        result.onSuccess { newTasks ->
-            projectTasks = newTasks
+        result.onSuccess {
             snackBarEvent = SnackBarEvent(strRes = Res.string.snackbar_create_new_task)
         }.onFailure { exception ->
             snackBarEvent = SnackBarEvent(
@@ -63,23 +50,12 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList(), ini
     }
 
     fun changeTaskStatus(task: Task, newStatus: Status) {
-        val result = projectGroup.changeTaskStatus(selectedProjectId, task, newStatus)
+        val result = workspace.updateTaskStatus(currentProject.id, task, newStatus)
 
-        result.onSuccess { newTasks ->
-            projectTasks = newTasks
+        result.onSuccess {
             snackBarEvent = SnackBarEvent(
                 message = "태스크가 이동되었습니다.",
             )
-        }.onFailure { exception ->
-            snackBarEvent = SnackBarEvent(message = exception.message)
-        }
-    }
-
-    private fun loadTasks(projectId: UUID) {
-        val result = projectGroup.getTasks(projectId)
-
-        result.onSuccess { newTasks ->
-            projectTasks = newTasks
         }.onFailure { exception ->
             snackBarEvent = SnackBarEvent(message = exception.message)
         }
