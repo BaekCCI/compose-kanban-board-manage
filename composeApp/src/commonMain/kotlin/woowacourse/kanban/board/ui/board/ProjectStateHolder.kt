@@ -7,11 +7,11 @@ import androidx.compose.runtime.toMutableStateList
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.snackbar_create_new_task
 import kanbanboard.composeapp.generated.resources.snackbar_error_create_new_task
+import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.domain.model.KanbanWorkspace
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Task
-import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.util.SnackBarEvent
 
 class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
@@ -29,7 +29,7 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
         currentProjectId = projectId
     }
 
-    fun addTask(title: String, description: String, tags: List<String>, assignee: User, status: Status) {
+    fun addTask(title: String, description: String, tags: List<String>, assignee: Assignee, status: Status) {
         val result = workspace.addTask(
             title = title,
             description = description,

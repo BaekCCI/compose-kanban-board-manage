@@ -4,12 +4,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.Status
-import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.domain.validator.TaskValidator
 import woowacourse.kanban.board.domain.validator.ValidationResult
 
-class TaskCreateFormState(val assignees: List<User>) {
+class TaskCreateFormState(val assignees: List<Assignee>) {
     var title by mutableStateOf("")
     val titleValidation: ValidationResult by derivedStateOf { TaskValidator.validateTitle(title) }
 
@@ -34,8 +34,8 @@ class TaskCreateFormState(val assignees: List<User>) {
         tag = input
     }
 
-    fun updateAssignee(user: User) {
-        selectedAssignee = user
+    fun updateAssignee(assignee: Assignee) {
+        selectedAssignee = assignee
     }
 
     fun updateStatus(status: Status) {

@@ -3,10 +3,10 @@ package woowacourse.kanban.board.kanban
 import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
-import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.board.TaskBoardState
 
 class KanbanBoardStateTest {
@@ -15,7 +15,7 @@ class KanbanBoardStateTest {
         projectId = UUID.randomUUID(),
         title = "태스크",
         tags = Tags(),
-        user = User("테스터"),
+        assignee = Assignee("테스터"),
         status = Status.TODO,
     )
 

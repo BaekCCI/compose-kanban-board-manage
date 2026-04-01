@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.Status
-import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.dialog.section.AssigneeSection
 import woowacourse.kanban.board.ui.dialog.section.DescriptionSection
 import woowacourse.kanban.board.ui.dialog.section.Footer
@@ -25,8 +25,8 @@ import woowacourse.kanban.board.ui.dialog.section.TitleSection
 fun TaskCreateForm(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
-    assignees: List<User>,
-    onClickCreate: (title: String, content: String, tags: List<String>, status: Status, assignee: User) -> Unit,
+    assignees: List<Assignee>,
+    onClickCreate: (title: String, content: String, tags: List<String>, status: Status, assignee: Assignee) -> Unit,
 ) {
     val uiState = remember { TaskCreateFormState(assignees) }
 
@@ -77,7 +77,7 @@ fun TaskCreateForm(
 
             AssigneeSection(
                 managers = uiState.assignees,
-                selectedUser = uiState.selectedAssignee,
+                selectedAssignee = uiState.selectedAssignee,
                 onUserChange = {
                     uiState.updateAssignee(it)
                 },
@@ -105,7 +105,7 @@ fun TaskCreateForm(
 private fun TaskCreateFormPreview() {
     TaskCreateForm(
         onDismiss = {},
-        assignees = listOf(User("다이노"), User("다이노소어"), User("우우우")),
+        assignees = listOf(Assignee("다이노"), Assignee("다이노소어"), Assignee("우우우")),
         onClickCreate = { _, _, _, _, _ -> },
     )
 }

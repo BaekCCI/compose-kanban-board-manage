@@ -9,7 +9,7 @@ data class Task(
     val title: String,
     val description: String? = null,
     val tags: Tags,
-    val user: User,
+    val assignee: Assignee? = null,
     val status: Status,
 ) {
     init {

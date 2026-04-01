@@ -4,7 +4,14 @@ class KanbanWorkspace(private val _projectTasks: MutableList<KanbanProject> = mu
 
     val projectTasks: List<KanbanProject> get() = _projectTasks
 
-    fun addTask(title: String, description: String, tags: List<String>, assignee: User, status: Status, projectId: String): Result<Unit> {
+    fun addTask(
+        title: String,
+        description: String,
+        tags: List<String>,
+        assignee: Assignee,
+        status: Status,
+        projectId: String,
+    ): Result<Unit> {
         val idx = _projectTasks.indexOfFirst { it.id == projectId }
         if (idx == -1) return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
 
@@ -13,7 +20,7 @@ class KanbanWorkspace(private val _projectTasks: MutableList<KanbanProject> = mu
                 title = title,
                 description = description,
                 tags = Tags(tags.map { Tag(it) }),
-                user = assignee,
+                assignee = assignee,
                 status = status,
             )
             _projectTasks[idx] = _projectTasks[idx].addTask(newTask)

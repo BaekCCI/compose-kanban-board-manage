@@ -21,12 +21,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.util.UUID
+import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tag
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
-import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.component.Chip
 import woowacourse.kanban.board.ui.component.UserProfile
 import woowacourse.kanban.board.ui.theme.Gray100
@@ -50,9 +49,11 @@ fun TaskCard(task: Task, modifier: Modifier = Modifier) {
         TaskTitle(task.title)
         task.description?.let { content -> TaskDescription(content) }
         if (task.tags.items.isNotEmpty()) TaskTags(task.tags)
-        Box {
-            HorizontalDivider(color = Gray100, thickness = 1.dp)
-            UserProfile(task.user, Modifier.padding(10.dp))
+        task.assignee?.let {
+            Box {
+                HorizontalDivider(color = Gray100, thickness = 1.dp)
+                UserProfile(it, Modifier.padding(10.dp))
+            }
         }
     }
 }
@@ -94,31 +95,30 @@ private fun TaskTags(tags: Tags) {
 }
 
 class CardPreviewParameterProvider : PreviewParameterProvider<Task> {
-    val projectId: UUID = UUID.randomUUID()
     override val values = sequenceOf(
         Task(
             title = "LazyColumn 컴포넌트 구현",
             description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
             tags = Tags(listOf(Tag("컴포넌트"), Tag("성능"))),
-            user = User(name = "다이노"),
+            assignee = Assignee(name = "다이노"),
             status = Status.TODO,
         ),
         Task(
             title = "LazyColumn 컴포넌트 구현",
             tags = Tags(listOf(Tag("컴포넌트"), Tag("성능"))),
-            user = User(name = "다이노"),
+            assignee = Assignee(name = "다이노"),
             status = Status.TODO,
         ),
         Task(
             title = "LazyColumn 컴포넌트 구현",
             description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
-            user = User(name = "다이노"),
+            assignee = Assignee(name = "다이노"),
             tags = Tags(emptyList()),
             status = Status.TODO,
         ),
         Task(
             title = "LazyColumn 컴포넌트 구현",
-            user = User(name = "다이노"),
+            assignee = Assignee(name = "다이노"),
             tags = Tags(emptyList()),
             status = Status.TODO,
         ),
@@ -126,7 +126,7 @@ class CardPreviewParameterProvider : PreviewParameterProvider<Task> {
             title = "LazyColumn 컴포넌트 구현",
             description = "너무너무너무 긴 설명은 두 줄까지만 노출하고 말줄임표로 처리합니다 두 줄까지만 노출하고 말줄임표로 처리합니다",
             tags = Tags(listOf(Tag("너무너무"), Tag("긴 태그"), Tag("최대로"), Tag("5자까지"), Tag("5개제한임"))),
-            user = User(name = "너무너무너무 긴 담당자도 한 줄 너무너무너무 긴 담당자도 한 줄"),
+            assignee = Assignee(name = "너무너무너무 긴 담당자도 한 줄 너무너무너무 긴 담당자도 한 줄"),
             status = Status.TODO,
         ),
     )

@@ -8,12 +8,12 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
 import java.util.UUID
 import kotlin.test.Test
+import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tag
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
-import woowacourse.kanban.board.domain.model.User
 
 @OptIn(ExperimentalTestApi::class)
 class BoardTest {
@@ -46,7 +46,7 @@ class BoardTest {
             projectId = projectId,
             title = "A 태스크",
             tags = Tags(listOf(Tag("웃지마"))),
-            user = User("정준하"),
+            assignee = Assignee("정준하"),
             status = Status.TODO,
         )
         val state = ProjectStateHolder(listOf(KanbanProject(id = projectId, name = "A 프로젝트")), listOf(task))
@@ -75,7 +75,7 @@ class BoardTest {
             projectId = projectId,
             title = "A 태스크",
             tags = Tags(listOf(Tag("웃지마"))),
-            user = User("정준하"),
+            assignee = Assignee("정준하"),
             status = Status.TODO,
         )
         val state = ProjectStateHolder(listOf(KanbanProject(id = projectId, name = "A 프로젝트")), listOf(task))
@@ -106,7 +106,7 @@ class BoardTest {
             projectId = projectId,
             title = "A 태스크",
             tags = Tags(listOf(Tag("웃지마"))),
-            user = User("정준하"),
+            assignee = Assignee("정준하"),
             status = Status.TODO,
         )
         val state = ProjectStateHolder(listOf(KanbanProject(id = projectId, name = "A 프로젝트")), listOf(task))
