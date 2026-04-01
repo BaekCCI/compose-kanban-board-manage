@@ -28,6 +28,7 @@
     <string name="label_assignee">담당자</string>
     <string name="status_todo">To Do</string>
     <string name="status_in_progress">In Progress</string>
+    <string name="status_review">Review</string>
     <string name="status_done">Done</string>
 
     <!-- Validation Error -->

@@ -126,6 +126,12 @@ fun Status.getBoxColor(): TaskBoxColor = when (this) {
         border = Color(0xffFEE685),
     )
 
+    Status.REVIEW -> TaskBoxColor(
+        background = Color(0xffEDE9FE),
+        headerBackground = Color(0xff8B5CF6),
+        border = Color(0xffD2C7EA),
+    )
+
     Status.DONE -> TaskBoxColor(
         background = Color(0xffF0FDF4),
         headerBackground = Color(0xff00A63E),
