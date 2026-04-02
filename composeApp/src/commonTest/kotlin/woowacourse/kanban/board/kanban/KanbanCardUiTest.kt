@@ -4,7 +4,6 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
-import java.util.UUID
 import kotlin.test.Test
 import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.Status

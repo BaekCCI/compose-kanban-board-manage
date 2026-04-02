@@ -1,6 +1,5 @@
 package woowacourse.kanban.board.kanban
 
-import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -59,7 +58,7 @@ class CardTest {
     @Test
     fun `카드에 태그가 5개 이하면 생성 성공`() {
         val given = Tags(listOf(Tag("컴포넌트"), Tag("성능"), Tag("컴포즈"), Tag("테스트"), Tag("안드로이드")))
-        Task( title = "타이틀", tags = given, assignee = Assignee("테스트"), status = Status.TODO)
+        Task(title = "타이틀", tags = given, assignee = Assignee("테스트"), status = Status.TODO)
     }
 
     @Test

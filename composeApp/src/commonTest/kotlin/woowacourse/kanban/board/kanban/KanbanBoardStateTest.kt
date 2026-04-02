@@ -1,6 +1,5 @@
 package woowacourse.kanban.board.kanban
 
-import java.util.UUID
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import woowacourse.kanban.board.domain.model.Assignee

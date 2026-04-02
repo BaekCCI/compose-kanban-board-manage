@@ -34,7 +34,7 @@ class TaskCreateFormState(val assignees: List<Assignee>, val originTask: Task? =
     // 담당자 필수 여부
     val requiredAssignee get() = selectedStatus.requiredAssignee
 
-    val assigneeValidation : ValidationResult by derivedStateOf { TaskValidator.validateAssignee(requiredAssignee, selectedAssignee) }
+    val assigneeValidation: ValidationResult by derivedStateOf { TaskValidator.validateAssignee(requiredAssignee, selectedAssignee) }
 
     val canCreate by derivedStateOf {
         titleValidation is ValidationResult.Valid &&

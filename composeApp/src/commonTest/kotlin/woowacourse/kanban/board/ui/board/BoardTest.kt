@@ -6,7 +6,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.runComposeUiTest
-import java.util.UUID
 import kotlin.test.Test
 import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.KanbanProject
@@ -74,7 +73,7 @@ class BoardTest {
             assignee = Assignee("정준하"),
             status = Status.TODO,
         )
-        val state = ProjectStateHolder(listOf(KanbanProject(id = "1", name = "A 프로젝트",listOf(task))))
+        val state = ProjectStateHolder(listOf(KanbanProject(id = "1", name = "A 프로젝트", listOf(task))))
 
         // When 사용자가 태스크를 드래그앤드롭한다
         setContent {
@@ -103,7 +102,7 @@ class BoardTest {
             assignee = Assignee("정준하"),
             status = Status.TODO,
         )
-        val state = ProjectStateHolder(listOf(KanbanProject(id = "1", name = "A 프로젝트",listOf(task))))
+        val state = ProjectStateHolder(listOf(KanbanProject(id = "1", name = "A 프로젝트", listOf(task))))
 
         // When 사용자가 태스크를 드롭한다
         setContent {

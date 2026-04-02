@@ -64,7 +64,6 @@ fun DeleteButton(modifier: Modifier = Modifier, onClickDelete: () -> Unit) {
     }
 }
 
-
 @Composable
 fun ConfirmButton(modifier: Modifier = Modifier, content: @Composable () -> Unit, onClickConfirm: () -> Unit, enabled: Boolean = true) {
     Button(
@@ -114,4 +113,3 @@ private fun CancelButtonPreview() {
         onClickCancel = {},
     )
 }
-

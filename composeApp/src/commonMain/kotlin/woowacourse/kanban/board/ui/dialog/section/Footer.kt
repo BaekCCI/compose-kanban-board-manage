@@ -24,7 +24,7 @@ fun Footer(modifier: Modifier = Modifier, onClickCancel: () -> Unit = {}, onClic
         modifier
             .fillMaxWidth()
             .padding(24.dp),
-        Arrangement.spacedBy(12.dp, Alignment.End)
+        Arrangement.spacedBy(12.dp, Alignment.End),
     ) {
         CancelButton(onClickCancel = onClickCancel)
         ConfirmButton(

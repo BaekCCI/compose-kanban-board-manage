@@ -105,7 +105,7 @@ fun TaskCreateForm(
                         formState.selectedAssignee,
                     )
                 },
-                enabled = formState.canCreate
+                enabled = formState.canCreate,
             )
         } else {
             Footer(
