@@ -24,6 +24,8 @@ class KanbanCreateTest {
                     Assignee("우테코"), Assignee("테코"),
                 ),
                 onClickCreate = { _, _, _, _, _ -> },
+                onClickDelete = {},
+                onClickEdit = { _, _, _, _, _ -> },
             )
         }
         onAllNodes(hasSetTextAction())[0]
@@ -45,6 +47,8 @@ class KanbanCreateTest {
                     Assignee("우테코"), Assignee("테코"),
                 ),
                 onClickCreate = { _, _, _, _, _ -> },
+                onClickDelete = {},
+                onClickEdit = { _, _, _, _, _ -> },
             )
         }
 
@@ -67,6 +71,8 @@ class KanbanCreateTest {
                     Assignee("우테코"), Assignee("테코"),
                 ),
                 onClickCreate = { _, _, _, _, _ -> },
+                onClickDelete = {},
+                onClickEdit = { _, _, _, _, _ -> },
             )
         }
 

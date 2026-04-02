@@ -12,7 +12,6 @@ import woowacourse.kanban.board.ui.board.TaskBoardState
 class KanbanBoardStateTest {
 
     private val task = Task(
-        projectId = UUID.randomUUID(),
         title = "태스크",
         tags = Tags(),
         assignee = Assignee("테스터"),

@@ -25,7 +25,6 @@ class KanbanCardUiTest {
         setContent {
             TaskCard(
                 Task(
-                    projectId = UUID.randomUUID(),
                     title = title,
                     description = content,
                     tags = tags,
