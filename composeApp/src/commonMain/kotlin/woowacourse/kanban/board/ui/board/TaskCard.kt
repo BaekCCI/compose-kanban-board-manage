@@ -2,6 +2,7 @@ package woowacourse.kanban.board.ui.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,12 +38,13 @@ private const val TITLE_MAX_LINE = 1
 private const val CONTENT_MAX_LINE = 2
 
 @Composable
-fun TaskCard(task: Task, modifier: Modifier = Modifier) {
+fun TaskCard(task: Task, modifier: Modifier = Modifier, onClick: (Task) -> Unit = {}) {
     Column(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .background(Color.White)
             .border(width = 1.dp, shape = RoundedCornerShape(10.dp), color = Gray200)
+            .clickable { onClick(task) }
             .padding(17.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {

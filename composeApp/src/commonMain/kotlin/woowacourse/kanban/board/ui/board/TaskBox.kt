@@ -46,6 +46,7 @@ fun TaskBox(
     tasks: List<Task>,
     boxColor: TaskBoxColor,
     modifier: Modifier = Modifier,
+    onClickTask: (Task) -> Unit = {},
     getIsDropTarget: () -> Boolean = { false },
     onBoundsChanged: (Rect) -> Unit = {},
     onTaskDragStart: (Task) -> Unit = {},
@@ -104,6 +105,7 @@ fun TaskBox(
                     TaskCard(
                         task = it,
                         modifier = Modifier.fillMaxWidth().semantics { contentDescription = "${it.status}상태의 ${it.title}태스크" },
+                        onClick = onClickTask,
                     )
                 }
             }
