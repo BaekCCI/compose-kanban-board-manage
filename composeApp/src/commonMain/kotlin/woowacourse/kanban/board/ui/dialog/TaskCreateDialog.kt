@@ -14,11 +14,15 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.Status
+import woowacourse.kanban.board.domain.model.Task
 
 @Composable
 fun TaskCreateDialog(
     onDismissRequest: () -> Unit,
-    onConfirm: (title: String, content: String, tags: List<String>, status: Status, assignee: Assignee) -> Unit,
+    onCreate: (title: String, content: String, tags: List<String>, status: Status, assignee: Assignee?) -> Unit,
+    onEdit: (title: String, content: String, tags: List<String>, status: Status, assignee: Assignee?) -> Unit,
+    onDelete: () -> Unit,
+    originTask: Task? = null,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -32,7 +36,10 @@ fun TaskCreateDialog(
                     .fillMaxHeight(0.9f).clip(RoundedCornerShape(10.dp)).background(Color.White),
                 onDismiss = onDismissRequest,
                 assignees = listOf(Assignee("다이노"), Assignee("다이노소어"), Assignee("우우우")),
-                onClickCreate = onConfirm,
+                originTask = originTask,
+                onClickCreate = onCreate,
+                onClickDelete = onDelete,
+                onClickEdit = onEdit,
             )
         },
     )
@@ -43,6 +50,8 @@ fun TaskCreateDialog(
 private fun TaskCreateDialogPreview() {
     TaskCreateDialog(
         onDismissRequest = {},
-        onConfirm = { _, _, _, _, _ -> },
+        onCreate = { _, _, _, _, _ -> },
+        onEdit = { _, _, _, _, _ -> },
+        onDelete = {},
     )
 }

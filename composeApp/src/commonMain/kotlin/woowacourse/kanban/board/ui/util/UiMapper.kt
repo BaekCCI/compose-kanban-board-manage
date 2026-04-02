@@ -1,6 +1,7 @@
 package woowacourse.kanban.board.ui.util
 
 import kanbanboard.composeapp.generated.resources.Res
+import kanbanboard.composeapp.generated.resources.error_required_assignee
 import kanbanboard.composeapp.generated.resources.error_tag_count_exceeded
 import kanbanboard.composeapp.generated.resources.error_tag_invalid_format
 import kanbanboard.composeapp.generated.resources.error_tag_invalid_length
@@ -18,6 +19,7 @@ fun ValidationError.toMessage(): StringResource = when (this) {
     ValidationError.TAG_INVALID_FORMAT -> Res.string.error_tag_invalid_format
     ValidationError.TAG_INVALID_LENGTH -> Res.string.error_tag_invalid_length
     ValidationError.TAG_COUNT_EXCEEDED -> Res.string.error_tag_count_exceeded
+    ValidationError.REQUIRED_ASSIGNEE -> Res.string.error_required_assignee
 }
 
 fun Status.toUiString(): StringResource = when (this) {

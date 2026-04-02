@@ -57,11 +57,23 @@ fun KanbanBoardScreen(projectStateHolder: ProjectStateHolder) {
     Box {
         if (showDialog) {
             TaskCreateDialog(
-                onDismissRequest = { showDialog = false },
-                onConfirm = { title, description, tags, status, assignee ->
+                onDismissRequest = {
+                    showDialog = false
+                    projectStateHolder.clearSelectedTask()
+                },
+                onCreate = { title, description, tags, status, assignee ->
                     projectStateHolder.addTask(title = title, description = description, tags = tags, assignee = assignee, status = status)
                     showDialog = false
                 },
+                onEdit = { title, description, tags, status, assignee ->
+                    projectStateHolder.editTask(title, description, tags, assignee, status)
+                    showDialog = false
+                },
+                onDelete = {
+                    projectStateHolder.deleteTask()
+                    showDialog = false
+                },
+                originTask = projectStateHolder.selectedTask,
             )
         }
         Row {
@@ -98,6 +110,10 @@ fun KanbanBoardScreen(projectStateHolder: ProjectStateHolder) {
                 },
                 projectTask = projectStateHolder.currentProject,
                 onClickCreate = { showDialog = true },
+                onClickTask = { task ->
+                    projectStateHolder.selectedTask = task
+                    showDialog = true
+                },
                 modifier = Modifier.semantics { contentDescription = "${projectStateHolder.currentProject.name} 화면" },
             )
         }
