@@ -8,7 +8,7 @@ class KanbanWorkspace(private val _projectTasks: MutableList<KanbanProject> = mu
         title: String,
         description: String,
         tags: List<String>,
-        assignee: Assignee,
+        assignee: Assignee?,
         status: Status,
         projectId: String,
     ): Result<Unit> {
@@ -40,12 +40,31 @@ class KanbanWorkspace(private val _projectTasks: MutableList<KanbanProject> = mu
         return Result.success(Unit)
     }
 
-    fun editTask(projectId: String, task: Task, newTask: Task): Result<Unit> {
+    fun editTask(
+        projectId: String,
+        originTask: Task,
+        newTitle: String,
+        newDescription: String,
+        newTags: List<String>,
+        newAssignee: Assignee?,
+        newStatus: Status,
+    ): Result<Unit> {
         val idx = _projectTasks.indexOfFirst { it.id == projectId }
         if (idx == -1) return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
 
-        _projectTasks[idx] = _projectTasks[idx].editTask(task.id, newTask)
-        return Result.success(Unit)
+        return try {
+            val newTask = Task(
+                title = newTitle,
+                description = newDescription,
+                tags = Tags(newTags.map { Tag(it) }),
+                assignee = newAssignee,
+                status = newStatus,
+            )
+            _projectTasks[idx] = _projectTasks[idx].editTask(originTask.id, newTask)
+            Result.success(Unit)
+        } catch (e: IllegalArgumentException) {
+            Result.failure(e)
+        }
     }
 
     fun updateTaskStatus(projectId: String, task: Task, newStatus: Status): Result<Unit> {
