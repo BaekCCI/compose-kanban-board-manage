@@ -29,7 +29,9 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
         currentProjectId = projectId
     }
 
-    fun addTask(title: String, description: String, tags: List<String>, assignee: Assignee, status: Status) {
+    var selectedTask by mutableStateOf<Task?>(null)
+
+    fun addTask(title: String, description: String, tags: List<String>, assignee: Assignee?, status: Status) {
         val result = workspace.addTask(
             title = title,
             description = description,
@@ -49,6 +51,37 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
         }
     }
 
+    fun editTask(title: String, description: String, tags: List<String>, assignee: Assignee?, status: Status) {
+        val target = selectedTask ?: return
+
+        val result = workspace.editTask(
+            currentProject.id, target, title,
+            description, tags, assignee, status,
+        )
+        result.onSuccess {
+            snackBarEvent = SnackBarEvent(message = "태스크가 수정되었습니다.")
+            selectedTask = null
+        }.onFailure { exception ->
+            snackBarEvent = SnackBarEvent(
+                message = exception.message,
+            )
+        }
+    }
+
+    fun deleteTask() {
+        val target = selectedTask ?: return
+        val result = workspace.deleteTask(currentProject.id, target)
+
+        result.onSuccess {
+            snackBarEvent = SnackBarEvent(message = "태스크가 삭제되었습니다.")
+            selectedTask = null
+        }.onFailure { exception ->
+            snackBarEvent = SnackBarEvent(
+                message = exception.message,
+            )
+        }
+    }
+
     fun changeTaskStatus(task: Task, newStatus: Status) {
         val result = workspace.updateTaskStatus(currentProject.id, task, newStatus)
 
@@ -59,5 +92,9 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
         }.onFailure { exception ->
             snackBarEvent = SnackBarEvent(message = exception.message)
         }
+    }
+
+    fun clearSelectedTask() {
+        selectedTask = null
     }
 }
