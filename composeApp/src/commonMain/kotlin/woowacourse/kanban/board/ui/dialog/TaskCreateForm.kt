@@ -40,6 +40,7 @@ fun TaskCreateForm(
     ) {
         Header(
             onDismiss = onDismiss,
+            isEditMode = formState.isEditingMode,
         )
         HorizontalDivider()
         Column(
