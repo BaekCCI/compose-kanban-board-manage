@@ -32,15 +32,19 @@
 ## 테스트 목록
 
 - [x] StatusTest
-    - [x] To-Do에서 담당자가 있을 경우 In-Progress 전이가 가능하다
-    - [x] To-Do에서 담당자가 없는 상태로 상태 전이 시 에러가 발생한다
-    - [x] In-Progress에서 to-do 상태로 전이가 가능하다
-    - [x] In-Progress에서 Review 상태로 전이가 가능하다
-    - [x] In-Progress에서 Done 상태로 전이 시 에러가 발생한다
-    - [x] Review에서 In-Progress로 전이가 가능하다
-    - [x] Review에서 Done 상태로 전이가 가능하다
-    - [x] Review에서 to-do 상태로 전이 시 에러가 발생한다
-    - [x] Done에서 TODO 상태로 전이가 가능하다
+    - [x] TODO
+        - [x] To-Do에서 담당자가 있을 경우 In-Progress 전이가 가능하다
+        - [x] To-Do에서 담당자가 없는 상태로 상태 전이 시 에러가 발생한다
+    - [x] In-Progress
+        - [x] In-Progress에서 to-do 상태로 전이가 가능하다
+        - [x] In-Progress에서 Review 상태로 전이가 가능하다
+        - [x] In-Progress에서 Done 상태로 전이 시 에러가 발생한다
+    - [x] Review
+        - [x] Review에서 In-Progress로 전이가 가능하다
+        - [x] Review에서 Done 상태로 전이가 가능하다
+        - [x] Review에서 to-do 상태로 전이 시 에러가 발생한다
+    - [x] Done
+        - [x] Done에서 TODO 상태로 전이가 가능하다
 
 - [x] KanbanProjectTest
     - [x] 태스크 추가 시 해당 태스크가 포함된 새로운 프로젝트를 반환한다
@@ -50,3 +54,25 @@
     - [x] 존재하지 않는 태스크 수정 시 에러가 발생한다
     - [x] 태스크 상태 변경 시 해당 태스크의 상태를 수정한 새로운 프로젝트를 반환한다
     - [x] 존재하지 않는 태스크의 상태 변경 시 에러가 발생한다
+
+- [ ] KanbanWorkspaceTest
+    - [x] 태스크 추가
+        - [x] 태스크 추가 성공 시 Result Success를 반환한다
+        - [x] 태스크 추가 성공 시 프로젝트 리스트에 반영된다
+        - [x] 태스크 추가 실패 시 Result Failure를 반환한다
+        - [x] 태스크 추가 실패 시 프로젝트 리스트에 반영되지 않는다
+    - [ ] 태스크 삭제
+        - [ ] 태스크 삭제 성공 시 Result Success를 반환한다
+        - [ ] 태스크 삭제 성공 시 프로젝트 리스트에 반영된다
+        - [ ] 태스크 삭제 실패 시 Result Failure를 반환한다
+        - [ ] 태스크 삭제 실패 시 프로젝트 리스트에 반영되지 않는다
+    - [ ] 태스크 수정
+        - [ ] 태스크 수정 성공 시 Result Success를 반환한다
+        - [ ] 태스크 수정 성공 시 프로젝트 리스트에 반영된다
+        - [ ] 태스크 수정 실패 시 Result Failure를 반환한다
+        - [ ] 태스크 수정 실패 시 프로젝트 리스트에 반영되지 않는다
+    - [ ] 태스크 상태 변환
+        - [ ] 태스크 상태 변환 성공 시 Result Success를 반환한다
+        - [ ] 태스크 상태 변환 성공 시 프로젝트 리스트에 반영된다
+        - [ ] 태스크 상태 변환 실패 시 Result Failure를 반환한다
+        - [ ] 태스크 상태 변환 실패 시 프로젝트 리스트에 반영되지 않는다
