@@ -45,5 +45,46 @@ class KanbanWorkspaceTest {
         assert(workspace.projectTasks.find { it.id == "1" }!!.tasks.isEmpty())
     }
 
+    @Test
+    fun `태스크 삭제 성공 시 Result Success를 반환한다`() {
+        val target = Task("1", "태스크", tags = Tags(), status = Status.TODO)
+        val workspace =
+            KanbanWorkspace(mutableListOf(KanbanProject("1", "프로젝트", listOf(target))))
 
+        val result = workspace.deleteTask("1", target)
+
+        assert(result.isSuccess)
+    }
+
+    @Test
+    fun `태스크 삭제 성공 시 프로젝트 리스트에 반영된다`() {
+        val target = Task("1", "태스크", tags = Tags(), status = Status.TODO)
+        val workspace =
+            KanbanWorkspace(mutableListOf(KanbanProject("1", "프로젝트", listOf(target))))
+
+        workspace.deleteTask("1", target)
+
+        assert(workspace.projectTasks.find { it.id == "1" }!!.tasks.isEmpty())
+    }
+
+    @Test
+    fun `태스크 삭제 실패 시 Result Failure를 반환한다`() {
+        val target = Task("1", "태스크", tags = Tags(), status = Status.TODO)
+        val workspace =
+            KanbanWorkspace(mutableListOf(KanbanProject("1", "프로젝트", listOf(target))))
+
+        val result = workspace.deleteTask("2", target)
+
+        assert(result.isFailure)
+    }
+
+    @Test
+    fun `태스트 삭제 실패 시 프로젝트 리스트에 반영되지 않는다`() {
+        val target = Task("1", "태스크", tags = Tags(), status = Status.TODO)
+        val workspace =
+            KanbanWorkspace(mutableListOf(KanbanProject("1", "프로젝트", listOf(target))))
+
+        workspace.deleteTask("2", target)
+        assert(workspace.projectTasks.find { it.id == "1" }!!.tasks.size == 1)
+    }
 }
