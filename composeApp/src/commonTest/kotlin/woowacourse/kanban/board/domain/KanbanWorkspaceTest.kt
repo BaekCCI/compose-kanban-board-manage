@@ -1,12 +1,12 @@
 package woowacourse.kanban.board.domain
 
+import kotlin.test.Test
 import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.KanbanProject
 import woowacourse.kanban.board.domain.model.KanbanWorkspace
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
-import kotlin.test.Test
 
 class KanbanWorkspaceTest {
 
