@@ -54,6 +54,7 @@ class KanbanWorkspace(private val _projectTasks: MutableList<KanbanProject> = mu
 
         return try {
             val newTask = Task(
+                id = originTask.id,
                 title = newTitle,
                 description = newDescription,
                 tags = Tags(newTags.map { Tag(it) }),
