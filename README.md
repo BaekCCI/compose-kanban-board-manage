@@ -28,3 +28,16 @@
         - Done -> ToDo
     - [x] 정의되어있지 않은 상태 전이 시도 시, `해당 상태로 옮길 수 없습니다.` 스낵바를 노출한다.
     - [x] 담당자가 정의되지 않은 TODO를 InProgress로 전환 시, `담당자를 지정해야 상태를 옮길 수 있습니다.` 스낵바를 노출한다.
+
+## 테스트 목록
+
+- [x] StatusTest
+    - [x] To-Do에서 담당자가 있을 경우 In-Progress 전이가 가능하다
+    - [x] To-Do에서 담당자가 없는 상태로 상태 전이 시 에러가 발생한다
+    - [x] In-Progress에서 to-do 상태로 전이가 가능하다
+    - [x] In-Progress에서 Review 상태로 전이가 가능하다
+    - [x] In-Progress에서 Done 상태로 전이 시 에러가 발생한다
+    - [x] Review에서 In-Progress로 전이가 가능하다
+    - [x] Review에서 Done 상태로 전이가 가능하다
+    - [x] Review에서 to-do 상태로 전이 시 에러가 발생한다
+    - [x] Done에서 TODO 상태로 전이가 가능하다

@@ -7,7 +7,7 @@ enum class Status(val requiredAssignee: Boolean, val canDeleteTask: Boolean) {
     DONE(true, false),
     ;
 
-    val movableTo: List<Status>
+    private val movableTo: List<Status>
         get() = when (this) {
             TODO -> listOf(TODO, IN_PROGRESS)
             IN_PROGRESS -> listOf(TODO, REVIEW)
