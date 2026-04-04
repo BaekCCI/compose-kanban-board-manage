@@ -22,29 +22,25 @@ fun ProjectSideBar(
     modifier: Modifier = Modifier,
     innerPadding: Dp = 16.dp,
 ) {
-    Column(
-        modifier = modifier,
-    ) {
-        SideBar(
-            title = "프로젝트",
-            subtitle = "4주차 미션 보드",
-            content = {
-                Column(
-                    modifier = modifier.padding(innerPadding),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    projects.forEach { project ->
-                        SideBarTab(
-                            isSelected = (project.id == selectedProjectId),
-                            name = project.name,
-                            onClick = { onProjectSelect(project.id) },
-                        )
-                    }
+    SideBar(
+        title = "프로젝트",
+        subtitle = "4주차 미션 보드",
+        content = {
+            Column(
+                modifier = Modifier.padding(innerPadding),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                projects.forEach { project ->
+                    SideBarTab(
+                        isSelected = (project.id == selectedProjectId),
+                        name = project.name,
+                        onClick = { onProjectSelect(project.id) },
+                    )
                 }
-            },
-            modifier = Modifier.fillMaxHeight(),
-        )
-    }
+            }
+        },
+        modifier = modifier,
+    )
 }
 
 @Preview(showBackground = true)
