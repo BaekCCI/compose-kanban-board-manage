@@ -9,26 +9,28 @@ data class KanbanProject(val id: String = Uuid.random().toString(), val name: St
     val completeCount: Int get() = tasks.count { it.status == Status.DONE }
     val completeRatio: Float get() = if (totalCount == 0) 0f else completeCount.toFloat() / totalCount.toFloat()
 
-    fun addTask(newTask: Task): KanbanProject {
-        return this.copy(tasks = tasks + newTask)
+    fun addTask(newTask: Task): KanbanResult<KanbanProject> {
+        return KanbanResult.Success(this.copy(tasks = tasks + newTask))
     }
 
-    fun deleteTask(taskId: String): KanbanProject {
-        require(tasks.any { it.id == taskId }) { "$taskId 태스크를 찾을 수 없습니다." }
-        return this.copy(tasks = tasks.filter { it.id != taskId })
+    fun deleteTask(taskId: String): KanbanResult<KanbanProject> {
+        if (tasks.none { it.id == taskId }) return KanbanResult.Failure(KanbanError.TaskNotFound(taskId))
+
+        return KanbanResult.Success(this.copy(tasks = tasks.filter { it.id != taskId }))
     }
 
-    fun editTask(taskId: String, newTask: Task): KanbanProject {
-        require(tasks.any { it.id == taskId }) { "$taskId 태스크를 찾을 수 없습니다." }
+    fun editTask(taskId: String, newTask: Task): KanbanResult<KanbanProject> {
+        if (tasks.none { it.id == taskId }) return KanbanResult.Failure(KanbanError.TaskNotFound(taskId))
         val updatedTasks = tasks.map { if (it.id == taskId) newTask else it }
 
-        return this.copy(tasks = updatedTasks)
+        return KanbanResult.Success(this.copy(tasks = updatedTasks))
     }
 
-    fun updateStatus(taskId: String, newStatus: Status): KanbanProject {
-        require(tasks.any { it.id == taskId }) { "$taskId 태스크를 찾을 수 없습니다." }
-        val updatedTasks = tasks.map { if (it.id == taskId) it.copy(status = it.status.moveTo(newStatus, it.assignee != null)) else it }
+    fun updateStatus(taskId: String, newStatus: Status): KanbanResult<KanbanProject> {
+        if (tasks.none { it.id == taskId }) return KanbanResult.Failure(KanbanError.TaskNotFound(taskId))
 
-        return this.copy(tasks = updatedTasks)
+        val updatedTasks = tasks.map { if (it.id == taskId) it.copy(status = newStatus) else it }
+
+        return KanbanResult.Success(this.copy(tasks = updatedTasks))
     }
 }
