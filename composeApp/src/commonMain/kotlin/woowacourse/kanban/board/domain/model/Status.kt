@@ -16,9 +16,9 @@ enum class Status(val requiredAssignee: Boolean, val canDeleteTask: Boolean) {
         }
     }
 
-    fun moveTo(to: Status, hasAssignee: Boolean): Status {
-        require(to in this.movableTo) { "해당 상태로 옮길 수 없습니다." }
-        if (to.requiredAssignee) require(hasAssignee) { "담당자를 지정해야 상태를 옮길 수 있습니다." }
-        return to
+    fun validateTransition(to: Status, hasAssignee: Boolean): KanbanResult<Unit> {
+        if (to !in this.movableTo) return KanbanResult.Failure(KanbanError.InvalidStatusTransition(this, to))
+        if (to.requiredAssignee && !hasAssignee) return KanbanResult.Failure(KanbanError.AssigneeRequired(this))
+        return KanbanResult.Success(Unit)
     }
 }
