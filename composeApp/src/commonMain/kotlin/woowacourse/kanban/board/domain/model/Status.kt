@@ -7,18 +7,18 @@ enum class Status(val requiredAssignee: Boolean, val canDeleteTask: Boolean) {
     DONE(true, false),
     ;
 
-    private val movableTo: List<Status>
-        get() = when (this) {
+    private val movableTo: List<Status> by lazy {
+        when (this) {
             TODO -> listOf(TODO, IN_PROGRESS)
             IN_PROGRESS -> listOf(TODO, REVIEW)
             REVIEW -> listOf(IN_PROGRESS, DONE)
             DONE -> listOf(TODO)
         }
+    }
 
-    companion object {
-        fun validChangeStatus(from: Status, to: Status, hasAssignee: Boolean) {
-            require(to in from.movableTo) { "해당 상태로 옮길 수 없습니다." }
-            if (to.requiredAssignee) require(hasAssignee) { "담당자를 지정해야 상태를 옮길 수 있습니다." }
-        }
+    fun moveTo(to: Status, hasAssignee: Boolean): Status {
+        require(to in this.movableTo) { "해당 상태로 옮길 수 없습니다." }
+        if (to.requiredAssignee) require(hasAssignee) { "담당자를 지정해야 상태를 옮길 수 있습니다." }
+        return to
     }
 }

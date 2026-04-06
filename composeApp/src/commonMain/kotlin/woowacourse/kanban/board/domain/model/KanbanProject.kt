@@ -27,7 +27,7 @@ data class KanbanProject(val id: String = Uuid.random().toString(), val name: St
 
     fun updateStatus(taskId: String, newStatus: Status): KanbanProject {
         require(tasks.any { it.id == taskId }) { "$taskId 태스크를 찾을 수 없습니다." }
-        val updatedTasks = tasks.map { if (it.id == taskId) it.copy(status = newStatus) else it }
+        val updatedTasks = tasks.map { if (it.id == taskId) it.copy(status = it.status.moveTo(newStatus, it.assignee != null)) else it }
 
         return this.copy(tasks = updatedTasks)
     }

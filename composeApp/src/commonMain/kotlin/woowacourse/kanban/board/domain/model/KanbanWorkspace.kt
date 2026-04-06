@@ -73,7 +73,6 @@ class KanbanWorkspace(private val _projectTasks: MutableList<KanbanProject> = mu
         if (idx == -1) return Result.failure(IllegalArgumentException("프로젝트(id = $projectId)를 찾을 수 없습니다."))
 
         return try {
-            Status.validChangeStatus(task.status, newStatus, task.assignee != null)
             _projectTasks[idx] = _projectTasks[idx].updateStatus(task.id, newStatus)
 
             Result.success(Unit)
