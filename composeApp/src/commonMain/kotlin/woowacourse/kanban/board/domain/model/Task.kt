@@ -14,5 +14,6 @@ data class Task(
 ) {
     init {
         require(title.isNotBlank()) { "제목이 비어있습니다." }
+        if(status.requiredAssignee) require(assignee!=null){"${status}는 담당자가 필수입니다."}
     }
 }
