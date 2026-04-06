@@ -3,6 +3,7 @@ package woowacourse.kanban.board.domain
 import kotlin.test.Test
 import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.KanbanProject
+import woowacourse.kanban.board.domain.model.KanbanResult
 import woowacourse.kanban.board.domain.model.KanbanWorkspace
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tags
@@ -16,7 +17,7 @@ class KanbanWorkspaceTest {
 
         val result = workspace.addTask("타이틀", "내용", emptyList(), null, Status.TODO, "1")
 
-        assert(result.isSuccess)
+        assert(result is KanbanResult.Success)
     }
 
     @Test
@@ -33,7 +34,7 @@ class KanbanWorkspaceTest {
 
         val result = workspace.addTask("타이틀", "내용", emptyList(), null, Status.TODO, "2")
 
-        assert(result.isFailure)
+        assert(result is KanbanResult.Failure)
     }
 
     @Test
@@ -53,7 +54,7 @@ class KanbanWorkspaceTest {
 
         val result = workspace.deleteTask("1", target)
 
-        assert(result.isSuccess)
+        assert(result is KanbanResult.Success)
     }
 
     @Test
@@ -75,7 +76,7 @@ class KanbanWorkspaceTest {
 
         val result = workspace.deleteTask("2", target)
 
-        assert(result.isFailure)
+        assert(result is KanbanResult.Failure)
     }
 
     @Test
@@ -95,7 +96,7 @@ class KanbanWorkspaceTest {
             KanbanWorkspace(mutableListOf(KanbanProject("1", "프로젝트", listOf(target))))
 
         val result = workspace.editTask("1", target, "수정", "내용", emptyList(), null, Status.TODO)
-        assert(result.isSuccess)
+        assert(result is KanbanResult.Success)
     }
 
     @Test
@@ -117,7 +118,7 @@ class KanbanWorkspaceTest {
 
         val result = workspace.editTask("2", target, "수정", "내용", emptyList(), null, Status.TODO)
 
-        assert(result.isFailure)
+        assert(result is KanbanResult.Failure)
     }
 
     @Test
@@ -139,7 +140,7 @@ class KanbanWorkspaceTest {
 
         val result = workspace.updateTaskStatus("1", target, Status.IN_PROGRESS)
 
-        assert(result.isSuccess)
+        assert(result is KanbanResult.Success)
     }
 
     @Test
@@ -161,7 +162,7 @@ class KanbanWorkspaceTest {
 
         val result = workspace.updateTaskStatus("2", target, Status.IN_PROGRESS)
 
-        assert(result.isFailure)
+        assert(result is KanbanResult.Failure)
     }
 
     @Test

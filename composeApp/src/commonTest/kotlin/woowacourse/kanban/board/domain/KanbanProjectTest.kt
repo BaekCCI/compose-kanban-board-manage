@@ -3,10 +3,10 @@ package woowacourse.kanban.board.domain
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
-import kotlin.test.assertFails
 import kotlin.test.assertTrue
 import woowacourse.kanban.board.domain.model.Assignee
 import woowacourse.kanban.board.domain.model.KanbanProject
+import woowacourse.kanban.board.domain.model.KanbanResult
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
@@ -29,7 +29,7 @@ class KanbanProjectTest {
             tags = Tags(),
             status = Status.TODO,
         )
-        val result = project.addTask(newTask)
+        val result = (project.addTask(newTask) as KanbanResult.Success).data
         assertContains(result.tasks, newTask)
     }
 
@@ -49,7 +49,7 @@ class KanbanProjectTest {
             ),
         )
 
-        val result = project.deleteTask("1")
+        val result = (project.deleteTask("1") as KanbanResult.Success).data
         assertTrue(result.tasks.all { it.id != targetId })
     }
 
@@ -68,9 +68,10 @@ class KanbanProjectTest {
                 ),
             ),
         )
-        assertFails {
-            project.deleteTask(given)
-        }
+
+        val result = project.deleteTask(given)
+
+        assert(result is KanbanResult.Failure)
     }
 
     @Test
@@ -95,10 +96,12 @@ class KanbanProjectTest {
             status = Status.TODO,
         )
 
-        val result = project.editTask(
-            targetId,
-            newTask,
-        )
+        val result = (
+            project.editTask(
+                targetId,
+                newTask,
+            ) as KanbanResult.Success
+            ).data
         assertEquals(result.tasks.find { it.id == targetId }?.title, "수정된 태스크")
     }
 
@@ -118,9 +121,10 @@ class KanbanProjectTest {
             ),
         )
         val newTask = Task(title = "수정", tags = Tags(), status = Status.TODO)
-        assertFails {
-            project.editTask(given, newTask)
-        }
+
+        val result = project.editTask(given, newTask)
+
+        assert(result is KanbanResult.Failure)
     }
 
     @Test
@@ -137,7 +141,7 @@ class KanbanProjectTest {
                 ),
             ),
         )
-        val result = project.updateStatus("1", Status.IN_PROGRESS)
+        val result = (project.updateStatus("1", Status.IN_PROGRESS) as KanbanResult.Success).data
         assertEquals(result.tasks.find { it.id == "1" }?.status, Status.IN_PROGRESS)
     }
 
@@ -157,8 +161,7 @@ class KanbanProjectTest {
                 ),
             ),
         )
-        assertFails {
-            project.updateStatus(given, Status.IN_PROGRESS)
-        }
+        val result = project.updateStatus(given, Status.IN_PROGRESS)
+        assert(result is KanbanResult.Failure)
     }
 }
