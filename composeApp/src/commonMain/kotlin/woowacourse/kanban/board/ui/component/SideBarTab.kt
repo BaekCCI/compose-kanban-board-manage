@@ -35,6 +35,6 @@ fun SideBarTab(isSelected: Boolean, name: String, onClick: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun SideBarTabPreview() {
+private fun SideBarTabPreview() {
     SideBarTab(true, "프로젝트1", {})
 }
