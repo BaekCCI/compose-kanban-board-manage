@@ -3,8 +3,9 @@ package woowacourse.kanban.board.domain.model
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class KanbanWorkspace(private val _projectTasks: MutableList<KanbanProject> = mutableListOf()) {
+class KanbanWorkspace(initialProject: List<KanbanProject> = emptyList()) {
 
+    private val _projectTasks: MutableList<KanbanProject> = initialProject.toMutableList()
     val projectTasks: List<KanbanProject> get() = _projectTasks
 
     fun addTask(

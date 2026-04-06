@@ -3,7 +3,6 @@ package woowacourse.kanban.board.ui.board
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.snackbar_change_task_status
 import kanbanboard.composeapp.generated.resources.snackbar_create_new_task
@@ -19,9 +18,9 @@ import woowacourse.kanban.board.ui.util.SnackBarEvent
 import woowacourse.kanban.board.ui.util.toMessage
 
 class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
-    private val workspace = KanbanWorkspace(initialProjects.toMutableStateList())
+    private val workspace = KanbanWorkspace(initialProjects)
 
-    val projects get() = workspace.projectTasks
+    var projects: List<KanbanProject> by mutableStateOf(workspace.projectTasks)
     var currentProjectId: String by mutableStateOf(projects.first().id)
         private set
 
@@ -46,6 +45,7 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
         )
         snackBarEvent = when (result) {
             is KanbanResult.Success -> {
+                projects = workspace.projectTasks
                 SnackBarEvent(strRes = Res.string.snackbar_create_new_task)
             }
 
@@ -67,6 +67,7 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
         snackBarEvent = when (result) {
             is KanbanResult.Success -> {
                 selectedTask = null
+                projects = workspace.projectTasks
                 SnackBarEvent(strRes = Res.string.snackbar_edit_task)
             }
 
@@ -85,6 +86,7 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
         snackBarEvent = when (result) {
             is KanbanResult.Success -> {
                 selectedTask = null
+                projects = workspace.projectTasks
                 SnackBarEvent(strRes = Res.string.snackbar_delete_task)
             }
 
@@ -102,6 +104,7 @@ class ProjectStateHolder(initialProjects: List<KanbanProject> = emptyList()) {
         snackBarEvent = when (result) {
             is KanbanResult.Success -> {
                 selectedTask = null
+                projects = workspace.projectTasks
                 SnackBarEvent(strRes = Res.string.snackbar_change_task_status)
             }
 
